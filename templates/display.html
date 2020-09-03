@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+<<<<<<< HEAD
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+   <!-- Card -->
+
+
+
+   <div class="row">
+      {% for key, values in results.items() %}
+      {% if 'education' in key.lower() or 'phone' in key.lower() or 'experience' in key.lower() or 'skill' in key.lower() or 'technical skill' in key.lower() or 'project' in key.lower() %}
+   
+
+    
+=======
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- Card -->
+
+    <div class="row">
+      {% for key, values in results.items() %} {% if 'education' in key.lower()
+      or 'phone' in key.lower() or 'internships' in key.lower() or 'skills' in
+      key.lower() or 'technical' in key.lower() %}
+>>>>>>> bb4d1920ca1b14dc9711cd2129918975b0403e92
+
+      <div class="col-8">
+        <div class="card" style="width: 100rem; text-align: center;">
+          <div class="card-body">
+            <h5 class="card-title">{{key}}</h5>
+            {% for value in values %}
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">{{value}}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+    <div class="row">
+      {% for key, values in results.items() %} {% if 'Message' in key %}
+
+      <div class="col-8">
+        <div class="card" style="width: 100rem; text-align: center;">
+          <div class="card-body">
+            <h5 class="card-title">{{key}}</h5>
+
+            {% for value in values %}
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">{{value}}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+    <div class="row">
+      {% for key, values in results.items() %} {% if 'Score' in key or 'Review'
+      in key %}
+
+      <div class="col-8">
+        <div class="card" style="width: 100rem; text-align: center;">
+          <div class="card-body">
+            <h5 class="card-title">{{key}}</h5>
+
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">{{values}}</p>
+          </div>
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+
+    <div class="row">
+      {% for key, values in results.items() %} {% if 'match' in key or 'Review'
+      in key %}
+
+      <div class="col-8">
+        <div class="card" style="width: 100rem; text-align: center;">
+          <div class="card-body">
+            <h5 class="card-title">{{key}}</h5>
+
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">{{values}}</p>
+          </div>
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+
+    <div class="row">
+      {% for key, values in results.items() %} {% if 'Length' in key %}
+
+      <div class="col-8">
+        <div class="card" style="width: 100rem; text-align: center;">
+          <div class="card-body">
+            <h5 class="card-title">{{key}}</h5>
+
+            {% if values > 2 %}
+            <p class="card-text">{{values}}</p>
+            <p class="card-text">The Length of the Resume is too long</p>
+            {% else %}
+            <p class="card-text">{{values}}</p>
+            <p class="card-text">The Length of the Resume is optimal</p>
+            {% endif %}
+
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+          </div>
+        </div>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+    <div class="row">
+      {% for key, values in results.items() %} {% if 'WordCount' in key %}
+
+      <div class="col-8">
+        <div class="card" style="width: 100rem; text-align: center;">
+          <div class="card-body">
+            <h5 class="card-title">{{key}}</h5>
+
+            {% if values > 600 %}
+            <p class="card-text">{{values}}</p>
+            <p class="card-text">
+              The Word Count of the Resume is too long. The Optimal Count should
+              be 500-600 unless you have lots of experience
+            </p>
+            {% else %}
+            <p class="card-text">{{values}}</p>
+            <p class="card-text">The Word Count of the Resume is optimal</p>
+            {% endif %}
+
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+          </div>
+        </div>
+      </div>
+<<<<<<< HEAD
+      {% endif %}
+      {% endfor %}
+   </div>
+   <div class="row">
+    {% for key, values in results.items() %}
+    {% if 'skcount' in key.lower() %}
+ 
+
+  
+
+    <div class="col-8">
+       <div class="card" style="width: 100rem; text-align: center; ">
+        <div class="card-body">
+          <h5 class="card-title">Skill Count</h5>
+      
+      <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+      <p class="card-text">{{values-2}} ---{{values}} </p>
+      
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+ </div>
+   
+   
+   
+      
+      
+      
+      
+   
+
+    
+</body>
+</html>
+=======
+      {% endif %} {% endfor %}
+    </div>
+  </body>
+</html>
+>>>>>>> bb4d1920ca1b14dc9711cd2129918975b0403e92
