@@ -71,7 +71,12 @@ def uploaded_file(filename):
     global text_main,length,match
     file_name = f_name
     print(f_name)
+    impact = 10
+    pres =0
     text_main = ""
+    edu_msg =0 
+    vol_msg=0
+    pro_msg=0
     if(file_name[-3:]=="pdf"):
         print("File is in pdf")
         match = float(pdf(file_name))
@@ -140,10 +145,14 @@ def uploaded_file(filename):
     
     sections['phone']=list(set(phone))
     sections['links']=mlink
+    if (len(mlink) != 0):
+        impact+=5
     imp_sec=["education","experience","expertise","role","career","skill","award","certificate","project",'volunteer']
     score = 0
     msg = []
     edu=0
+    ach_msg = 0 #achievement variable message
+    cert_msg = 0 #certification message flag
     sections['edu_year']=""
     sections['exp_year']=""
     for key in sections.keys():
@@ -152,7 +161,9 @@ def uploaded_file(filename):
             if sec in key.lower():
                 if(sec=="education" or sec=="school" or sec=="college"):
                     score +=10
+                    pres+=10
                     edu = 1
+                    edu_msg =1
                     sections['edu_year']=extract(sections[key])
                     #print(dummy_edu)
                     msg.append("Education Section is Present")
@@ -160,6 +171,7 @@ def uploaded_file(filename):
                 if(sec=="experience" or sec=="work experience" or sec=="job" or sec=="job titles" or sec=="position description" or sec=="work" or sec=="role"):
                     score +=20
                     sections['exp_year']=extract(sections[key])
+                    impact+=20
                     #print(dummy_exp)
                     msg.append("Experience Section is Present")
                     break
@@ -169,18 +181,26 @@ def uploaded_file(filename):
                     break
                 if(sec=="award"):
                     score +=5
+                    impact+=5
+                    ach_msg = 1
                     msg.append("Awards/Achievement Section is Present")
                     break
                 if(sec=="volunteer"):
+                    pres+=5
                     score +=5
+                    vol_msg =1
                     msg.append("Volunteering Section is Present")
                     break
                 if(sec=="certificate"):
+                    impact+=5
                     score +=10
+                    cert_msg=1
                     msg.append("Certificate Section is Present")
                     break
                 if(sec=="project"):
+                    pres+=10
                     score +=10
+                    pro_msg=1
                     msg.append("Projects Section is Present")
                     break
 
@@ -199,8 +219,6 @@ def uploaded_file(filename):
     filtered_sentence=[]
     
     for i in sections.keys():
-        # print("I am here 1")
-        #print(i)
         if(i.lower()=="work experience"):
             score +=5
         if(i.lower()=="core competencies"):
@@ -220,14 +238,20 @@ def uploaded_file(filename):
     sections['SkCount']=skillsets
     sections['original']=filtered_sentence
     sections['linkedin']=Find(text_main)
-    print(sections['linkedin'])
+    ck=sections['linkedin']
+    link_msg=1
+    if(len(ck) == 0):
+        link_msg=0
+    print(type(len(ck)))
+    print('Heyo',sections['linkedin'])
     ac=0
     rd=0
-    
     if actionwords(text_main) > 5:
+        act_msg =1
         ac=10
         sections['action_word']="Your resume contains Action Verbs! Strong, unique action verbs show hiring managers that you have held different roles and skill sets. They also help your accomplishments stand out and make them more impactful."
     elif actionwords(text_main)<=5:
+        act_msg =0
         sections['action_word']="Your resume doesnt contain much Action Verbs! Strong, unique action verbs show hiring managers that you have held different roles and skill sets. They also help your accomplishments stand out and make them more impactful. "
         
     
@@ -236,9 +260,9 @@ def uploaded_file(filename):
     
     if redundancy(text_main) > 10:
         rd=5
-        sections['redundancy']="There are a lot of redundant words used in your resume.Try to use synonyms"
+        sections['redundancy']="1"
     elif redundancy(text_main)<=10:
-        sections['redundancy']="Your resume doesnt contain much redundant words"
+        sections['redundancy']="0"
         
     
     #sections['edu_year']=extract(sections[dummy_edu])
@@ -274,34 +298,9 @@ def uploaded_file(filename):
     if(sections['Score'] >=75 and sections['Score']<90):
         sections["Review"]="The Resume may be Correctly Parsed and Optimal. It is advised to pass DOCX Format in ATS Checker. There is certainly Some Room For Improvement"        
     #end of check
-    return render_template('services.html', results=sections,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu)
+    return render_template('services.html', results=sections,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,act_msg=act_msg,depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
     #return render_template('display.html', results=sections)   
 
-# def get_year(text, education):
-#     text_lines = text.splitlines()
-#     passing_year = []
-#     for line in text_lines:
-#         for degree in education:
-#             if degree.lower().strip() in line:
-#                 year = re.findall('((?:19|20)\d\d)', line)
-#                 p_year = {}
-#                 if len(year) > 1:
-#                     year = '-'.join(year)
-#                     p_year[degree]= year
-#                     passing_year.append(p_year)
-#                     break
-#                 elif len(year) == 1:
-#                     p_year[degree]= year
-#                     passing_year.append(p_year)
-#                     break
-#     return passing_year
-#     passing_year.sort()
-#     diff_list = [] 
-#     for x, y in zip(passing_year[0::], passing_year[1::]):
-#         diff_list.append(y-x)
-#     print('I am here at this funcion')
-#     print(diff_list) 
-#     return diff_list
 
 def docx(name):
     global text_main,length
@@ -461,7 +460,9 @@ def extract(text):
     return(year)
     
     
-
+@app.route('/details')
+def detailed():
+    return render_template('detailed.html')
 
 
 @app.route('/',methods= ["GET",'POST'])
