@@ -50,7 +50,7 @@ app.secret_key = 'development key'
 # app.config['MYSQL_DB'] = 'dataly'
 #mysql = MySQL(app)
 
-cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+
 
 
 
@@ -159,6 +159,7 @@ def uploaded_file(filename):
         print(key)
         for sec in imp_sec:
             if sec in key.lower():
+                print(sec,type(sec),"Hi")
                 if(sec=="education" or sec=="school" or sec=="college"):
                     score +=10
                     pres+=10
@@ -203,7 +204,7 @@ def uploaded_file(filename):
                     pro_msg=1
                     msg.append("Projects Section is Present")
                     break
-
+    print("EDU MSG",edu_msg)
     sections['Message']=msg
     # sections['Score']=round(((score/98)*100),2)
     rev=""
@@ -298,7 +299,8 @@ def uploaded_file(filename):
     if(sections['Score'] >=75 and sections['Score']<90):
         sections["Review"]="The Resume may be Correctly Parsed and Optimal. It is advised to pass DOCX Format in ATS Checker. There is certainly Some Room For Improvement"        
     #end of check
-    return render_template('services.html', results=sections,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,act_msg=act_msg,depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
+    print("New EDU MSG",edu_msg)
+    return render_template('services.html', results=sections,pro_msg=pro_msg,edu_msg=edu_msg,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],vol_msg=vol_msg,cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,act_msg=act_msg,depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
     #return render_template('display.html', results=sections)   
 
 
