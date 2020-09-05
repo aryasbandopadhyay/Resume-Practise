@@ -147,7 +147,7 @@ def uploaded_file(filename):
     sections['links']=mlink
     if (len(mlink) != 0):
         impact+=5
-    imp_sec=["education","experience","expertise","role","career","skill","award","certificate","project",'volunteer']
+    imp_sec=["education","experience","expertise","role","career","skill","award","certificat","project",'volunteer']
     score = 0
     msg = []
     edu=0
@@ -192,7 +192,7 @@ def uploaded_file(filename):
                     vol_msg =1
                     msg.append("Volunteering Section is Present")
                     break
-                if(sec=="certificate"):
+                if(sec=="certificat"):
                     impact+=5
                     score +=10
                     cert_msg=1
@@ -299,7 +299,7 @@ def uploaded_file(filename):
     if(sections['Score'] >=75 and sections['Score']<90):
         sections["Review"]="The Resume may be Correctly Parsed and Optimal. It is advised to pass DOCX Format in ATS Checker. There is certainly Some Room For Improvement"        
     #end of check
-    print("New EDU MSG",edu_msg)
+    print(pro_msg,edu_msg,sections['redundancy'],vol_msg,cert_msg,link_msg,ach_msg,act_msg)
     return render_template('services.html', results=sections,pro_msg=pro_msg,edu_msg=edu_msg,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],vol_msg=vol_msg,cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,act_msg=act_msg,depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
     #return render_template('display.html', results=sections)   
 
