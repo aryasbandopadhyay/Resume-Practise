@@ -31,7 +31,8 @@ from pickle import dump, load
 from nltk.corpus import brown
 from itertools import dropwhile
 from nltk import word_tokenize, pos_tag
-import language_check
+
+
 
 import spacy
 nlp = spacy.load('en_core_web_sm')
@@ -40,7 +41,7 @@ nlp = spacy.load('en_core_web_sm')
 #nltk.download('stopwords')
 #nltk.download('punkt')
 
-
+nltk.download('all')
 
 UPLOAD_FOLDER='./uploads/'
 ALLOWED_EXTENSIONS ={'pdf','docx'}
