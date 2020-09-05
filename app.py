@@ -41,7 +41,7 @@ nlp = spacy.load('en_core_web_sm')
 #nltk.download('stopwords')
 #nltk.download('punkt')
 
-nltk.download('all')
+#nltk.download('all')
 
 UPLOAD_FOLDER='./uploads/'
 ALLOWED_EXTENSIONS ={'pdf','docx'}
