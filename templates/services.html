@@ -374,13 +374,26 @@
                         </b>
 
                         {% endif %}
+                        <br /><br />
+                        {% if count_pass == 0%}
+                        
+                        <img src="/static/tick.png" style="width: 20px" /><b>
+                          ACTIVE PASSIVE SENTENCES -</b
+                        >Great to see that your bullet points are in Active Voice in your resume. 
+                        
+                        {% else %}
+                        <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                          ACTIVE PASSIVE SENTENCES -</b>
+                          Your bullet points are in Passive Voice and you need to change them to active.
+                          
+                        
                         
                         
                         
                         
                        
 
-                        
+                        {% endif %} 
                         <br /><br />
                         {% if rud_mdg == "1" %}
                         <img src="/static/tick.png" style="width: 20px" /><b>
@@ -395,9 +408,33 @@
 
                         {% endif %} 
                         <br /> <br>
+                        {% if count_tense == 0 %}
                         <img src="/static/tick.png" style="width: 20px" /><b>
-                          GRAMMER -</b
+                          TENSE -</b
+                        >Glad to see you have used correct tenses in your sentences.
+                        {% else %}
+
+                        <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                          TENSE -</b
                         >Ensure that you are using the right tenses when describing your accomplishment
+
+
+                        {% endif %}
+                        <br /><br />
+                        {% if para <= 2 %}
+                        <img src="/static/tick.png" style="width: 20px" /><b>
+                          BULLET POINTS -</b
+                        >Glad to see you have used less number of paragraphs and more bullet points in your Resume. This helps recruiters skim through your resume qucikly and it creates a positive impression.
+                        {% else %}
+
+                        <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                          BULLET POINTS -</b
+                        >Ensure that you are using Bullet Points when describing your accomplishment because recruiters prefer skiimming through your resume quickly and paragraphs make it Difficult for them. 
+
+
+                        {% endif %} 
+                        
+                        
 
                       </p>
                     <br />

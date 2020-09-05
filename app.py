@@ -27,6 +27,11 @@ import jinja2
 import nltk
 from nltk.corpus import stopwords 
 from nltk.tokenize import word_tokenize
+from pickle import dump, load
+from nltk.corpus import brown
+from itertools import dropwhile
+from nltk import word_tokenize, pos_tag
+import language_check
 
 import spacy
 nlp = spacy.load('en_core_web_sm')
@@ -115,7 +120,7 @@ def uploaded_file(filename):
     
     phone=re.findall(r"(?<!\d)\d{10}(?!\d)", text_main)
     email=re.findall(r"([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)",text_main)
-    print(email)
+    #print(email)
     links= re.findall(r"(^(http\:\/\/|https\:\/\/)?([a-z0-9][a-z0-9\-]*\.)+[a-z0-9][a-z0-9\-]*)",text_main)
     mlink=[]
     for link in links:
@@ -155,17 +160,19 @@ def uploaded_file(filename):
     cert_msg = 0 #certification message flag
     sections['edu_year']=""
     sections['exp_year']=""
+    sections['paragraph']=0
     for key in sections.keys():
-        print(key)
+        #print(key)
         for sec in imp_sec:
             if sec in key.lower():
-                print(sec,type(sec),"Hi")
+                #print(sec,type(sec),"Hi")
                 if(sec=="education" or sec=="school" or sec=="college"):
                     score +=10
                     pres+=10
                     edu = 1
                     edu_msg =1
                     sections['edu_year']=extract(sections[key])
+                    sections['paragraph']+=paragraph_check(sections[key])
                     #print(dummy_edu)
                     msg.append("Education Section is Present")
                     break
@@ -173,17 +180,20 @@ def uploaded_file(filename):
                     score +=20
                     sections['exp_year']=extract(sections[key])
                     impact+=20
+                    sections['paragraph']+=paragraph_check(sections[key])
                     #print(dummy_exp)
                     msg.append("Experience Section is Present")
                     break
                 if(sec=="skill"):
                     score +=20
                     msg.append("Skills Section is Present")
+                    sections['paragraph']+=paragraph_check(sections[key])
                     break
                 if(sec=="award"):
                     score +=5
                     impact+=5
                     ach_msg = 1
+                    sections['paragraph']+=paragraph_check(sections[key])
                     msg.append("Awards/Achievement Section is Present")
                     break
                 if(sec=="volunteer"):
@@ -202,9 +212,10 @@ def uploaded_file(filename):
                     pres+=10
                     score +=10
                     pro_msg=1
+                    sections['paragraph']+=paragraph_check(sections[key])
                     msg.append("Projects Section is Present")
                     break
-    print("EDU MSG",edu_msg)
+    #print("EDU MSG",edu_msg)
     sections['Message']=msg
     # sections['Score']=round(((score/98)*100),2)
     rev=""
@@ -243,8 +254,8 @@ def uploaded_file(filename):
     link_msg=1
     if(len(ck) == 0):
         link_msg=0
-    print(type(len(ck)))
-    print('Heyo',sections['linkedin'])
+    #print(type(len(ck)))
+    #print('Heyo',sections['linkedin'])
     ac=0
     rd=0
     if actionwords(text_main) > 5:
@@ -257,7 +268,7 @@ def uploaded_file(filename):
         
     
     
-    print(sections['action_word'])
+    #print(sections['action_word'])
     
     if redundancy(text_main) > 10:
         rd=5
@@ -267,9 +278,9 @@ def uploaded_file(filename):
         
     
     #sections['edu_year']=extract(sections[dummy_edu])
-    print(sections['exp_year'])
-    print(sections['edu_year'])
-    print(sections['redundancy'])
+    #print(sections['exp_year'])
+    #print(sections['edu_year'])
+    #print(sections['redundancy'])
     #print(filtered_sentence)
     sections['match']=match
     # Checking of resume score for message
@@ -298,9 +309,45 @@ def uploaded_file(filename):
         sections["Review"]="The Resume is correctly Parsed and Optimal. There may be some room for Improvement"
     if(sections['Score'] >=75 and sections['Score']<90):
         sections["Review"]="The Resume may be Correctly Parsed and Optimal. It is advised to pass DOCX Format in ATS Checker. There is certainly Some Room For Improvement"        
+    t=Tagger()
+    count_passive=0
+    co_pa=0
+    for i in line1:
+        if(t.is_passive(i)):
+            count_passive += 1
+    
+            
+    if(count_passive > 5):
+        co_pa= 1
+        
+    else:
+        co_pa=0
+        ac += 5
+    #print(impact)
+    co_ta=0
+    count_tenses=0
+    for i in line1:
+        if(tenses_res(i)):
+            count_tenses += 1
+            
+    if(count_tenses >= 5):
+        co_ta= 1
+        
+    else:
+        co_ta=0
+        ac += 5
+        
+    
+    if sections['paragraph'] <= 2:
+        ac += 5
+        
+    
+    
+    
+        
     #end of check
-    print(pro_msg,edu_msg,sections['redundancy'],vol_msg,cert_msg,link_msg,ach_msg,act_msg)
-    return render_template('services.html', results=sections,pro_msg=pro_msg,edu_msg=edu_msg,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],vol_msg=vol_msg,cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,act_msg=act_msg,depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
+    #print(pro_msg,edu_msg,sections['redundancy'],vol_msg,cert_msg,link_msg,ach_msg,act_msg)
+    return render_template('services.html', results=sections,pro_msg=pro_msg,edu_msg=edu_msg,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],vol_msg=vol_msg,cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,count_pass=co_pa,count_tense=co_ta,act_msg=act_msg,para=sections['paragraph'],depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
     #return render_template('display.html', results=sections)   
 
 
@@ -460,6 +507,110 @@ def extract(text):
         year = re.findall('((?:19|20)\d\d)', c)
     year.sort()
     return(year)
+
+class Tagger:
+    def __init__(self):
+        if os.path.exists("tagger.pkl"):
+            with open('tagger.pkl', 'rb') as data:
+                tagger = load(data)
+            self.tagger = tagger
+        else:
+            tagger = create_tagger()
+            self.tagger = tagger
+            self.save()
+
+    def save(self):
+        with open('tagger.pkl', 'wb') as output:
+            dump(self.tagger, output, -1)
+
+    def tag(self, sent):
+        return self.tagger.tag(sent)
+
+    def tag_sentence(self, sent):
+        """Take a sentence as a string and return a list of (word, tag) tuples."""
+        tokens = nltk.word_tokenize(sent)
+        return self.tag(tokens)
+
+    def is_passive(self, sent):
+        return is_passive(self, sent)
+
+def passivep(tags):
+    """Takes a list of tags, returns true if we think this is a passive
+    sentence.
+
+    Particularly, if we see a "BE" verb followed by some other, non-BE
+    verb, except for a gerund, we deem the sentence to be passive.
+    """
+    
+    after_to_be = list(dropwhile(lambda tag: not tag.startswith("BE"), tags))
+    nongerund = lambda tag: tag.startswith("V") and not tag.startswith("VBG")
+
+    filtered = filter(nongerund, after_to_be)
+    out = any(filtered)
+
+    return out
+
+def create_tagger():
+    """Train a tagger from the Brown Corpus. This should not be called very
+    often; only in the event that the tagger pickle wasn't found."""
+    train_sents = brown.tagged_sents()
+
+    # These regexes were lifted from the NLTK book tagger chapter.
+    t0 = nltk.RegexpTagger(
+        [(r'^-?[0-9]+(.[0-9]+)?$', 'CD'), # cardinal numbers
+         (r'(The|the|A|a|An|an)$', 'AT'), # articles
+         (r'.*able$', 'JJ'),              # adjectives
+         (r'.*ness$', 'NN'),              # nouns formed from adjectives
+         (r'.*ly$', 'RB'),                # adverbs
+         (r'.*s$', 'NNS'),                # plural nouns
+         (r'.*ing$', 'VBG'),              # gerunds
+         (r'.*ed$', 'VBD'),               # past tense verbs
+         (r'.*', 'NN')                    # nouns (default)
+        ])
+    t1 = nltk.UnigramTagger(train_sents, backoff=t0)
+    t2 = nltk.BigramTagger(train_sents, backoff=t1)
+    t3 = nltk.TrigramTagger(train_sents, backoff=t2)
+    return t3
+
+def is_passive(tagger, sent):
+    tagged = tagger.tag_sentence(sent)
+    tags = map(lambda tup: tup[1], tagged)
+    return bool(passivep(tags))
+
+def check_for_tense(sentence):
+    text = word_tokenize(sentence)
+    tagged = pos_tag(text)
+
+    tense = dict()
+    tense["future"] = len([word for word in tagged if word[1] == "MD"])
+    tense["present"] = len([word for word in tagged if word[1] in ["VBP", "VBZ","VBG"]])
+    tense["past"] = len([word for word in tagged if word[1] in ["VBD", "VBN"]]) 
+    return(tense)
+
+def tenses_res(str):
+    tenses_check = check_for_tense(str)
+    new_list = list(tenses_check.values())
+    if new_list[0] == 0 and new_list[1] == 0:
+        return False
+    elif new_list[1] == 0 and new_list[2] == 0:
+        return False
+    elif new_list[0] == 0 and new_list[2] == 0:
+        return False
+    else:
+        return True
+    
+def paragraph_check(str):
+    Counter = 0
+    for i in str: 
+        if i: 
+            Counter += 1
+            
+    if Counter > 5:
+        return 0
+    else:
+        return 1
+    
+
     
     
 @app.route('/details')
