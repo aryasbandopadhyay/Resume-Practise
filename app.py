@@ -118,31 +118,35 @@ def uploaded_file(filename):
     liness=[]
     line=""
     line1=[]
-    for i in text_main:
-            
-        if(i!='\n'):
-            line+=i
-        else:
-            liness.append(line)
-            line=""
-        
-    for line in liness:
-        if len(line)!=0:
-            line1.append(line)
 # =============================================================================
-#     if(file_name[-4:] == "docx" or file_name[-3:] == "doc" ):
-#         for i in text_main:
+#     for i in text_main:
 #             
-#             if(i!='\n'):
-#                 line+=i
-#             else:
-#                 liness.append(line)
-#                 line=""
+#         if(i!='\n'):
+#             line+=i
+#         else:
+#             liness.append(line)
+#             line=""
 #         
-#         for line in liness:
-#             if len(line)!=0:
-#                 line1.append(line)
-#     elif(file_name[-3:]=="pdf"):
+#     for line in liness:
+#         if len(line)!=0:
+#             line1.append(line)
+# =============================================================================
+# =============================================================================
+    if(file_name[-4:] == "docx" or file_name[-3:] == "doc" ):
+        for i in text_main:
+            
+            if(i!='\n'):
+                line+=i
+            else:
+                liness.append(line)
+                line=""
+        
+        for line in liness:
+            if len(line)!=0:
+                line1.append(line)
+    elif(file_name[-3:]=="pdf"):
+        liness=text_main.split("\\n")
+# =============================================================================
 #         for i in range(len(text_main)-1):
 #             if(text_main[i]=="\\" ):
 #                if(text_main[i+1]=='n'):
@@ -150,12 +154,13 @@ def uploaded_file(filename):
 #                    line=""
 #                else:
 #                    line+=text_main[i]
-#                 
-#         
-#         for line in liness:
-#             if len(line)!=0:
-#                 line1.append(line)
 # =============================================================================
+                
+        
+        for line in liness:
+            if len(line)!=0:
+                line1.append(line)
+
     
     
     phone=re.findall(r"(?<!\d)\d{10}(?!\d)", text_main)
@@ -175,13 +180,15 @@ def uploaded_file(filename):
     links=list(set(mlink))
     section=[]
     sections={}
-    titles=['education','Licensures', 'Professional Qualification', 'academic qualification', 'Educational Qualification', 'academia', 'education and professional development', 'academic credentials', 'educational summary', 'academic profile', 'Experience', 'work experience', 'Job Titles held', 'Position Description and purpose', 'Professional Experience', 'Professional Summary', 'Profile', 'Qualifications', 'Employment History', 'history', 'previous employment', 'organisational experience', 'employers', 'positions of responsibility', 'employment scan', 'past experience', 'organizational experience', 'career', 'experience and qualification summary', 'relevant experience', 'experience summary', 'career synopsis', 'career timeline', 'banking IT experience', 'AML & FCM Suite Experience', 'employment details', 'Skill', 'Technical Skills', 'Soft Skills', 'Key Skills', 'Design Skills', 'Expertise', 'Abilities', 'Area of Expertise', 'Key attributes', 'Computer Skills', 'IT Skills', 'Technical Expertise', 'Technical Skills Set', 'Functional Skill Set', 'functional skills', 'strengths', 'areas of expertise', 'banking knowledge', 'Award', 'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','awards/achievements', 'Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training', 'other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','Project', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc', 'Community Service','EDUCATIONAL BACKGROUND','INTERNSHIPS EXPERIENCE','WINNING PORTFOLIO','AWARDS & RECOGNITIONS','CORE COMPETENCIES','PROJECTS ADMINISTERED','TECHNICAL SKILLS','CERTIFICATIONS','VOLUNTEERING','PERSONAL DOSSIER']
+    titles=['education','Licensures', 'Professional Qualification', 'academic qualification', 'Educational Qualification', 'academia', 'education and professional development', 'academic credentials', 'educational summary', 'academic profile', 'Experience', 'work experience', 'Job Titles held', 'Position Description and purpose', 'Professional Experience', 'Professional Summary', 'Profile', 'Qualifications', 'Employment History', 'history', 'previous employment', 'organisational experience', 'employers', 'positions of responsibility','Position of Responsibilities', 'employment scan', 'past experience', 'organizational experience', 'career', 'experience and qualification summary', 'relevant experience', 'experience summary', 'career synopsis', 'career timeline', 'banking IT experience', 'AML & FCM Suite Experience', 'employment details', 'Skill','skills', 'Technical Skills', 'Soft Skills', 'Key Skills', 'Design Skills', 'Expertise', 'Abilities', 'Area of Expertise', 'Key attributes', 'Computer Skills', 'IT Skills', 'Technical Expertise', 'Technical Skills Set', 'Functional Skill Set', 'functional skills', 'strengths', 'areas of expertise', 'banking knowledge', 'Award', 'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','awards/achievements', 'Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training','Coursework','other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','Project','projects', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc','Extra Curricular Activities', 'Community Service','EDUCATIONAL BACKGROUND','INTERNSHIPS EXPERIENCE','WINNING PORTFOLIO','AWARDS & RECOGNITIONS','CORE COMPETENCIES','PROJECTS ADMINISTERED','TECHNICAL SKILLS','CERTIFICATIONS','VOLUNTEERING','PERSONAL DOSSIER']
     titles1=[x.lower() for x in titles]
     #print(titles1)
     for x in line1:
+        print(x.lower() in titles1,x.lower())
         global keyword
         if x.lower() not in titles1:
             section.append(x)
+            #print(x)
             #print(section)
         #elif (len(x.split(" "))>=4):
             #section.append(x)
@@ -198,11 +205,11 @@ def uploaded_file(filename):
     #imp_sec=["education","experience","expertise","role","career","skill","award","certificat","projects",'volunteer']
     ed_list=['Education', 'Licensures', 'Professional Qualification', 'academic qualification', 'Educational Qualification', 'academia', 'education and professional development', 'academic credentials', 'educational summary', 'academic profile','EDUCATIONAL BACKGROUND']
     ex_list=['Experience', 'work experience', 'Job Titles held', 'Position Description and purpose', 'Professional Experience', 'Professional Summary', 'Profile', 'Qualifications', 'Employment History', 'history', 'previous employment', 'organisational experience', 'employers', 'positions of responsibility', 'employment scan','past experience', 'organizational experience', 'career', 'experience and qualification summary', 'relevant experience', 'experience summary', 'career synopsis', 'career timeline', 'banking IT experience', 'AML & FCM Suite Experience', 'employment details','INTERNSHIPS EXPERIENCE']
-    sk_list=['Skill', 'Technical Skills', 'Soft Skills', 'Key Skills', 'Design Skills', 'Expertise', 'Abilities', 'Area of Expertise', 'Key attributes', 'Computer Skills', 'IT Skills', 'Technical Expertise', 'Technical Skills Set', 'Functional Skill Set', 'functional skills', 'strengths', 'areas of expertise', 'banking knowledge','WINNING PORTFOLIO','CORE COMPETENCIES','TECHNICAL SKILLS']
-    aw_list=['Award' ,'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','AWARDS & RECOGNITIONS']
-    ce_list=['Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training', 'other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','CERTIFICATIONS']
-    pe_list=['Project', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','PROJECTS ADMINISTERED',]
-    vo_list=['Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc', 'Community Service','VOLUNTEERING']
+    sk_list=['Skill', 'Technical Skills', 'Soft Skills', 'Key Skills', 'Design Skills', 'Expertise', 'Abilities', 'Area of Expertise', 'Key attributes', 'Computer Skills', 'IT Skills', 'Technical Expertise', 'Technical Skills Set', 'Functional Skill Set', 'functional skills', 'strengths', 'areas of expertise', 'banking knowledge','WINNING PORTFOLIO','CORE COMPETENCIES','TECHNICAL SKILLS','skills']
+    aw_list=['Award' ,'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','AWARDS & RECOGNITIONS','awards','achievements']
+    ce_list=['Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training', 'other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','CERTIFICATIONS','coursework', 'competencies']
+    pe_list=['Project', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','PROJECTS ADMINISTERED','projects']
+    vo_list=['Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc', 'Community Service','VOLUNTEERING','extra curricular activities']
     ed1_list=[x.lower() for x in ed_list]
     ex1_list=[x.lower() for x in ex_list]
     sk1_list=[x.lower() for x in sk_list]
@@ -400,7 +407,7 @@ def uploaded_file(filename):
         ac += 5
         
     
-    print(sections.keys())
+    #print(sections.keys())
     
         
     #end of check
@@ -428,39 +435,12 @@ def docx(name):
     text_main = resume
     kk = analyser(text)
     return kk
-# =============================================================================
-# def convert_pdf_to_txt(path):
-#     rsrcmgr = PDFResourceManager()
-#     retstr = StringIO()
-#     codec = 'utf-8'
-#     laparams = LAParams()
-#     device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
-#     fp = open(path, 'rb')
-#     interpreter = PDFPageInterpreter(rsrcmgr, device)
-#     password = ""
-#     maxpages = 0
-#     caching = True
-#     pagenos=set()
-# 
-#     for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password,caching=caching, check_extractable=True):
-#         interpreter.process_page(page)
-# 
-#     text = retstr.getvalue()
-# 
-#     fp.close()
-#     device.close()
-#     retstr.close()
-#     return text
-# =============================================================================
+
 def pdf(name):
     global text_main,length
-    c=extract_text(name)
-    print(c)
-# =============================================================================
-#     with pdfplumber.open(name) as pdf:
-#         for pages in pdf.pages:
-#             c +="\n" + str(pages.extract_text())
-# =============================================================================
+    c=repr(extract_text(name))
+    #print(c)
+
     # f = open('jd.txt', 'r')
     jd= session['data']  
     # print(txt)
@@ -477,31 +457,7 @@ def pdf(name):
     return kk
     
 
-# =============================================================================
-#     text = convert_pdf_to_txt(name)
-# 
-#     c=repr(text)
-#     
-#     
-#     c=codecs.decode(c, 'unicode_escape')
-#     print(c)
-# =============================================================================
-    # f = open('jd.txt', 'r')
-# =============================================================================
-#     jd= session['data']  
-#     # print(txt)
-#     text =[c, jd]
-#     
-#     pdf = PdfFileReader(open(name,'rb'))
-#     page = pdf.getNumPages()
-#     length = page
-#     print("Number of Pages ",page)
-#     if(page > 2):
-#         print("Try to shorten your CV below 2 pages")
-#     kk = analyser(text)
-#     text_main = c
-#     return kk
-# =============================================================================
+
 def analyser(text):
     cv =CountVectorizer()
     count_matrix = cv.fit_transform(text)
