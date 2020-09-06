@@ -64,8 +64,10 @@
                     <nav>
                       <ul id="navigation">
                         <li><a href="/home">Home</a></li>
-                        <li><a href="about.html">What is Reset Your Career?</a></li>
-                        <li><a href="/analyse">Our Services</a></li>
+                        <li>
+                          <a href="about.html">What is Reset Your Career?</a>
+                        </li>
+                        <li><a href="#service">Our Services</a></li>
                         <li>
                           <a href="blog.html">Blog</a>
                           <!--<ul class="submenu">
@@ -75,7 +77,7 @@
                             </li>
                           </ul>-->
                         </li>
-                       <!--<li>
+                        <!--<li>
                          <a href="#">Pages</a>
                           <ul class="submenu">
                             <li><a href="/analyse">Element</a></li>
@@ -88,7 +90,7 @@
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-3">
                   <div class="header-right-btn f-right d-none d-lg-block">
-                    <a href="/analyse" class="btn header-btn">
+                    <a href="#service" class="btn header-btn">
                       <!-- iocn -->
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +106,8 @@
                       >Get Started
                     </a>
                   </div>
-                </div>-->
+                </div>
+                -->
                 <!-- Mobile Menu -->
                 <div class="col-12">
                   <div class="mobile_menu d-block d-lg-none"></div>
@@ -137,7 +140,7 @@
                       <a
                         data-animation="fadeInLeft"
                         data-delay="1s"
-                        href="/analyse"
+                        href="#service"
                         class="btn radius-btn"
                         >get started</a
                       >
@@ -145,12 +148,16 @@
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <div class="hero__img d-none d-lg-block f-right">
+                  <div
+                    class="hero__img d-none d-lg-block f-right"
+                    style="display: flex"
+                  >
                     <img
-                      src="/static/assets/img/hero/hero_right.png"
+                      src="/static/home.png"
                       alt=""
                       data-animation="fadeInRight"
                       data-delay="1s"
+                      style="max-width: 120%; margin: auto; text-align: left"
                     />
                   </div>
                 </div>
@@ -186,7 +193,7 @@
       </div>
       <!-- Slider Area End -->
       <!--Services Area Start -->
-      <div class="services-area section-padding30 fix">
+      <div id="service" class="services-area section-padding30 fix">
         <div class="container">
           <!-- Section Tittle -->
           <div class="row">
@@ -198,19 +205,24 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="col-lg-6 col-md-6 col-sm-6">
               <div class="services-wrapper mb-50">
                 <div class="single-services">
                   <div class="services-icon">
-                    <span class="flaticon-server"></span>
+                    <img
+                      src="/static/recruitment.png"
+                      style="max-width: 20%"
+                      alt=""
+                    />
                   </div>
                   <div class="services-cap">
-                    <h3><a href="/analyse">Resume Services</a></h3>
+                    <h3><a href="/analyse">Resume Analysis</a></h3>
                     <p>
-                      Enabling you to highlight your potential in your resumes.
+                      Enabling you to highlight your potential in your resume
+                      and get a detailed report for it.
                     </p>
                     <a href="/analyse" class="get-btn"
-                      ><i class="ti-arrow-right"></i> get started</a
+                      ><i class="ti-arrow-right"></i>Analyze</a
                     >
                   </div>
                 </div>
@@ -223,17 +235,24 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="col-lg-6 col-md-6 col-sm-6">
               <div class="services-wrapper mb-50">
                 <div class="single-services">
                   <div class="services-icon">
-                    <span class="flaticon-green"></span>
+                    <img
+                      src="/static/leader.png"
+                      style="max-width: 20%"
+                      alt=""
+                    />
                   </div>
                   <div class="services-cap">
-                    <h3><a href="/analyse">Career Guidance</a></h3>
-                    <p>Providing Job related / Project related Notification</p>
-                    <a href="/analyse" class="get-btn"
-                      ><i class="ti-arrow-right"></i> get started</a
+                    <h3><a href="/jd">Career Guidance</a></h3>
+                    <p>
+                      Get instant analysis for job seekers to check how well
+                      their resume is tailored for a particular job.
+                    </p>
+                    <a href="/jd" class="get-btn"
+                      ><i class="ti-arrow-right"></i>JD Match</a
                     >
                   </div>
                 </div>
@@ -246,7 +265,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
+            <!-- <div class="col-lg-4 col-md-6 col-sm-6">
               <div class="services-wrapper mb-50">
                 <div class="single-services">
                   <div class="services-icon">
@@ -268,7 +287,7 @@
                   />
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -293,7 +312,7 @@
                 have.”
               </p>
             </div>
-            <a href="/analyse" class="btn">get started</a>
+            <a href="#service" class="btn">get started</a>
           </div>
         </div>
         <!--Right Contents  -->
@@ -337,8 +356,8 @@
                     </div>
                   </div>
                 </div>-->
-                
-                <!--<div class="single-testimonial">
+
+      <!--<div class="single-testimonial">
                   
                   <div class="testimonial-caption">
                     
@@ -383,6 +402,7 @@
       </div>-->
       <section
         class="support-area section-bg pt-150 pb-150"
+        style="padding-top: 55px !important; padding-bottom: 60px !important"
         style="
           background: url(/static/assets/img/gallery/section_bg03.jpg) center /
             cover no-repeat;
@@ -405,6 +425,24 @@
                 </div>
               </div>
             </div>
+            <div class="col-lg-6">
+              <div
+                class="hero__img d-none d-lg-block f-right"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  text-align: center;
+                "
+              >
+                <img
+                  src="/static/expert.png"
+                  alt=""
+                  data-animation="fadeInRight"
+                  data-delay="1s"
+                  style="max-width: 80%; margin: auto; text-align: center"
+                />
+              </div>
+            </div>
             <!-- <div class="col-lg-6">
             <div class="support-number">
                 
@@ -416,8 +454,8 @@
                     <span>+1 514 648</span>
                   </div>
                 </div>-->
-                <!-- Single contact -->
-                <!--<div class="single-contact text-center">
+            <!-- Single contact -->
+            <!--<div class="single-contact text-center">
                   <div class="contact-icon">
                     <i class="far fa-comment"></i>
                   </div>
@@ -495,7 +533,7 @@
                     <div class="footer-logo">
                       <a href="/home"
                         ><img
-                        src="/static/assets/img/logo/dataly-resetlogo-05-05.png"
+                          src="/static/assets/img/logo/dataly-resetlogo-05-05.png"
                           style="width: 300px; height: 100px"
                           alt=""
                       /></a>
@@ -508,9 +546,9 @@
                   <div class="footer-tittle">
                     <h4>Our Offerings</h4>
                     <ul>
-                      <li><a href="/analyse">Resume Services</a></li>
-                      <li><a href="#">Job Support</a></li>
-                      <li><a href="#">Self Development tools</a></li>
+                      <li><a href="/analyse">Resume Analysis</a></li>
+                      <li><a href="/jd">Career Guidance</a></li>
+                      <li><a href="#service">Self Development tools</a></li>
                     </ul>
                   </div>
                 </div>

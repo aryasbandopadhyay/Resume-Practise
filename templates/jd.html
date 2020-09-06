@@ -52,7 +52,7 @@
                 <div class="col-xl-2 col-lg-1 col-md-1">
                   <div class="logo">
                     <a href="/home"
-                      ><img src="../static/assets/img/logo/dataly-resetlogo-05-05.png" style="max-width:300px;" alt="logo-reset-yout-career"
+                      ><img src="../static/assets/img/logo/dataly-resetlogo-05-05.png" style="max-width:300px;" alt="reset-yout-career"
                     /></a>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
                         <li><a href="/home">Home</a></li>
                         <li><a href="about.html">What is Reset your career?</a></li>
                         <li><a href="/demo">Our Services</a></li>
-                        
+                        <!--<li><a href="work.html">Works</a></li>-->
                         <li>
                           <a href="blog.html">Blog</a>
                           <!--<ul class="submenu">
@@ -92,7 +92,7 @@
                 </div>
                 <!-- Mobile Menu -->
                 <div class="col-12">
-                  <div class="mobile_menu d-block d-lg-none" style="margin-top:-35px"></div>
+                    <div class="mobile_menu d-block d-lg-none" style="margin-top:-35px"></div>
                 </div>
               </div>
             </div>
@@ -114,12 +114,12 @@
           <div class="container">
             <div class="row">
               <div class="col-xl-12">
-                <div class="hero-cap text-center pt-50" style="padding-top: 185px;">
-               <h2>Resume Analyser</h2>
+                <div class="hero-cap text-center pt-50" style="margin-top:100px;">
+                <h2>JD Match</h2>
 				</div>
-				
+				<br>
 					<div class="section-tittle text-center mb-100">
-					<br>  <span>Get your Resume Analysed in minutes</span>
+					  <span>Find your perfect Job in minutes</span>
 					</div>
 				  
               </div>
@@ -148,16 +148,16 @@
 				  <span class="flaticon-server"></span>
 				</div>
 				<div class="services-cap">
-				  <h3><a href="/analyse">Supported formats .pdf, .docx</a></h3>
+				  <h3><a href="/jd">Supported formats .pdf, .docx</a></h3>
 				  <p style="padding: 0px; margin: 0px;">
-					Click the button below or drop your resume in here.<br>
-English resume only. Max 2MB </p>
+					Click the button below or drop your resume in here.
+English resumes only. Max 2MB</p>
 
-          <form action="/analyse" method="POST" enctype = "multipart/form-data">
+          <form action="/jd" method="POST" enctype = "multipart/form-data">
            
-            <p style="padding-top: 10px;padding-bottom: 10px; margin: 0px;" ><b></b></p>
+            <p style="padding-top: 10px;padding-bottom: 10px; margin: 0px;" ><b>Type your Job Description</b></p>
               <!-- <input type="text" class="form-control" name="jd" id="jd" aria-describedby="emailHelp" placeholder="Job Description"> -->
-              <textarea placeholder="Job Description" type="text" name="jd" id="jd" class="form-control" rows="5" id="comment" style="display: none;"></textarea>
+              <textarea placeholder="Job Description" type="text" name="jd" id="jd" class="form-control" rows="5" id="comment" required></textarea>
               
             <br>
             <div class="image-upload" >
@@ -171,7 +171,7 @@ English resume only. Max 2MB </p>
               
             </div> 
            <div style="text-align: center;">
-           <br> <button type="submit" class="btn btn-primary" style="text-align: center;">Evaluate</button>
+            <button type="submit" class="btn btn-primary" style="text-align: center;">Evaluate</button>
            </div>
             
 <script>
@@ -247,10 +247,10 @@ $(document).ready(function(){
                   <div class="footer-tittle">
                     <h4>Our Offerings</h4>
                     <ul>
-                      <li><a href="/analyse">Resume Analysis</a></li>
-                      <li><a href="/jd">Career Guidance</a></li>
-                      <li><a href="#service">Self Development tools</a></li>
-                    </ul>
+                        <li><a href="/analyse">Resume Analysis</a></li>
+                        <li><a href="/jd">Career Guidance</a></li>
+                        <li><a href="#service">Self Development tools</a></li>
+                      </ul>
                   </div>
                 </div>
               </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Resume Analysis</title>
+    <title>Your Report</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="manifest" href="site.webmanifest" />
@@ -134,7 +134,7 @@
             <div class="row">
               <div class="col-xl-12">
                 <div class="hero-cap text-center pt-50">
-                  <h2>Resume Analysis</h2>
+                  <h2>JD Analysis</h2>
                   <p style="color: white; font-size: 21.5px">
                     " We at Reset Your Career have access to various CVs and we
                     are analysing through global standards. "
@@ -207,12 +207,12 @@
               </div>
             </div> -->
 
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="services-wrapper mb-50">
                 <div class="single-services">
                   <div class="services-icon">
                     <div class="w3-container">
-                      <!-- <div class="w3-light-grey">
+                       <div class="w3-light-grey">
                         <div
                           class="w3-container w3-green w3-center"
                           style="width: 25%;"
@@ -220,7 +220,7 @@
                           25%
                         </div>
                       </div>
-                      <br /> -->
+                      <br /> 
                       {% for key, values in results.items() %} {% if 'Score' in
                       key%}
 
@@ -247,31 +247,31 @@
                         </div>
                       </div>
 
-                      <!-- <div class="w3-light-grey">
+                      <div class="w3-light-grey">
                         <div
                           class="w3-container w3-red w3-center w3-padding-large w3-round"
                           style="width: {{values}}%;"
                         >
                           {{values}}%
                         </div>
-                      </div> -->
+                      </div> 
                       {% endif %} {% endfor %}
-                      <!-- <div class="w3-light-grey">
+                       <div class="w3-light-grey">
                         <div class="w3-container w3-blue" style="width: 75%;">
                           75%
                         </div>
-                      </div> -->
+                      </div> 
                     </div>
                   </div>
                   <div class="services-cap">
-                    <h3><a href="/demo">Match Score</a></h3>
+                    <h3><a href="/demo">Match Rate</a></h3>
                     <p>{{matched_comment}}</p>
                     <br />
                   </div>
                 </div>
                 <div class="services-shape"></div>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-12">
               <div class="services-wrapper mb-50">
@@ -287,7 +287,50 @@
                         </div>
                       </div>
                       <br /> -->
+                      {% for key, values in results.items() %} {% if 'match' in
+                      key%}
+                      <div class="w3-light-grey">
+                        <div
+                          class="w3-container w3-red w3-center w3-padding-large w3-round"
+                          style="width: {{values}}%;"
+                        >
+                          {{values}}%
+                        </div>
+                      </div>
+                      {% endif %} {% endfor %}
 
+                      <!-- <div class="w3-light-grey">
+                        <div class="w3-container w3-blue" style="width: 75%;">
+                          75%
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="services-cap">
+                    <h3><a>Job Level Match</a></h3>
+                    <p>{{jd_msg}}</p>
+                    <br />
+                  </div>
+                </div>
+                <div class="services-shape"></div>
+              </div>
+            </div>
+
+            <!-- <div class="col-12">
+              <div class="services-wrapper mb-50">
+                <div class="single-services">
+                  <div class="services-icon">
+                    <div class="w3-container">
+                       <div class="w3-light-grey">
+                        <div
+                          class="w3-container w3-green w3-center"
+                          style="width: 25%;"
+                        >
+                          25%
+                        </div>
+                      </div>
+                      <br /> 
+                   
                       <div class="w3-light-grey">
                         <div
                           class="w3-container w3-green w3-center w3-padding-large w3-round"
@@ -296,135 +339,112 @@
                           {{depth}}%
                         </div>
                       </div>
+                      
 
                       <!-- <div class="w3-light-grey">
                         <div class="w3-container w3-blue" style="width: 75%;">
                           75%
                         </div>
-                      </div> -->
+                      </div> 
                     </div>
                   </div>
                   <div class="services-cap">
                     <h3><a>Depth</a></h3>
                     <p>
+                      
+
                       {% if act_msg == 1%}
 
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        ACTION VERBS -</b
-                      >Great to see some action verbs in your resume. They will
-                      help a prospective employer see a vivid picture of your
-                      experience and achievement. <br /><b>
-                        If you want to make your resume stand out, action verbs
-                        are key. Strong, effective action words will paint a
-                        vivid picture of your experience and achievements in a
-                        potential employer’s mind.
-                      </b>
 
-                      {% else %}
+                        <img src="/static/tick.png" style="width: 20px" /><b>
+                          ACTION VERBS -</b
+                        >Great to see some action verbs in your resume. They will help a prospective employer see a vivid picture of your experience and achievement. <br><b>
+                        If you want to make your resume stand out, action verbs are key. Strong, effective action words will paint a vivid picture of your experience and achievements in a potential employer’s mind.
+                        </b>
 
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> ACTION VERBS -</b>You might want to consider adding
-                      some action verbs to your resune to clearly outline your
-                      experience and acheivements in a concise manner. <br /><b>
-                        If you want to make your resume stand out, action verbs
-                        are key. Strong, effective action words will paint a
-                        vivid picture of your experience and achievements in a
-                        potential employer’s mind.
-                      </b>
+                        {% else %}
 
-                      {% endif %}
-                      <br /><br />
-                      {% if count_pass == 0%}
 
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        ACTIVE PASSIVE SENTENCES -</b
-                      >Great to see that your bullet points are in Active Voice
-                      in your resume. {% else %}
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> ACTIVE PASSIVE SENTENCES -</b>
-                      Your bullet points are in Passive Voice and you need to
-                      change them to active. {% endif %}
-                      <br /><br />
-                      {% if rud_mdg == "1" %}
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        REDUNDANCY -</b
-                      >Great to see that you have used a variety of different
-                      words to outline your career in your resume {% else %}
 
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> REDUNDANCY -</b>We can see some words being used
-                      repetitvely in your resume, please consider using synonyms
-                      to add more and diverse meaing to your resume. {% endif %}
-                      <br /><b
-                        >Many job seekers fall into the trap of using the same
-                        words over and over again to describe their experience.
-                        Make your resume stand out among the competition and
-                        pack a stronger punch by integrating strong action
-                        verbs. Make sure that each statement serves a purpose
-                        and positions you in a positive light. Grab attention by
-                        using powerful verbs and adjectives. Creating this
-                        strong impression can help you to avoid redundancy by
-                        carefully choosing the words and phrases that you
-                        use.</b
-                      >
-                      <br />
-                      {% if count_tense == 0 %}
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        TENSE -</b
-                      >Glad to see you have used correct tenses in your
-                      sentences. {% else %}
-                      <br />
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> TENSE -</b>Ensure that you are using the right
-                      tenses when describing your accomplishment {% endif %}
-                      <br /><br />
-                      {% if para <= 2 %}
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        BULLET POINTS -</b
-                      >Glad to see you have used less number of paragraphs and
-                      more bullet points in your Resume. This helps recruiters
-                      skim through your resume qucikly and it creates a positive
-                      impression. {% else %}
+                        <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                          ACTION VERBS -</b
+                        >You might want to consider adding some action verbs to your resune to clearly outline your experience and acheivements in a concise manner. <br><b>
+                        If you want to make your resume stand out, action verbs are key. Strong, effective action words will paint a vivid picture of your experience and achievements in a potential employer’s mind.
+                        </b>
 
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> BULLET POINTS -</b>Ensure that you are using Bullet
-                      Points when describing your accomplishment because
-                      recruiters prefer skiimming through your resume quickly
-                      and paragraphs make it Difficult for them. {% endif %}
-                      <br />
-                      <b
-                        >Resume should predominantly contain short bullet points
-                        rather than paragraphs. If a recruiter was to pick up
-                        your resume right now, he should be able to skim through
-                        it in 30 seconds and your resume needs to be optimized
-                        for it. Short, succinct bullet points are key to your
-                        resume's readability. Blobs of text, that is bullets or
-                        paragraphs that are three lines or longer, are likely to
-                        not be read. It is recommended that you should list
-                        between 10 – 20 bullet points in your resume. Less than
-                        10 might mean that you do not have enough relevant
-                        experience and more than 20 means that you have included
-                        non – relevant accomplishments in your resume which may
-                        be overshadowing your actual achievements. Aim for 4 – 6
-                        bullet points per experience.</b
-                      >
-                    </p>
+                        {% endif %}
+                        <br /><br />
+                        {% if count_pass == 0%}
+                        
+                        <img src="/static/tick.png" style="width: 20px" /><b>
+                          ACTIVE PASSIVE SENTENCES -</b
+                        >Great to see that your bullet points are in Active Voice in your resume. 
+                        
+                        {% else %}
+                        <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                          ACTIVE PASSIVE SENTENCES -</b>
+                          Your bullet points are in Passive Voice and you need to change them to active.
+                          
+                        
+                        
+                        
+                        
+                        
+                       
+
+                        {% endif %} 
+                        <br /><br />
+                        {% if rud_mdg == "1" %}
+                        <img src="/static/tick.png" style="width: 20px" /><b>
+                          REDUNDANCY -</b
+                        >Great to see that you have used a variety of different words to outline your career in your resume
+                        {% else %}
+
+                        <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                          REDUNDANCY -</b
+                        >We can see some words being used repetitvely in your resume, please consider using synonyms to add more and diverse meaing to your resume.
+
+
+                        {% endif %} 
+                        <br /> <br>
+                        {% if count_tense == 0 %}
+                        <img src="/static/tick.png" style="width: 20px" /><b>
+                          TENSE -</b
+                        >Glad to see you have used correct tenses in your sentences.
+                        {% else %}
+
+                        <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                          TENSE -</b
+                        >Ensure that you are using the right tenses when describing your accomplishment
+
+
+                        {% endif %}
+                        <br /><br />
+                        {% if para <= 2 %}
+                        <img src="/static/tick.png" style="width: 20px" /><b>
+                          BULLET POINTS -</b
+                        >Glad to see you have used less number of paragraphs and more bullet points in your Resume. This helps recruiters skim through your resume qucikly and it creates a positive impression.
+                        {% else %}
+
+                        <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                          BULLET POINTS -</b
+                        >Ensure that you are using Bullet Points when describing your accomplishment because recruiters prefer skiimming through your resume quickly and paragraphs make it Difficult for them. 
+
+
+                        {% endif %} 
+                        
+                        
+
+                      </p>
                     <br />
                   </div>
                 </div>
                 <div class="services-shape"></div>
               </div>
             </div>
+
+
+
 
             <div class="col-12">
               <div class="services-wrapper mb-50">
@@ -439,8 +459,8 @@
                           25%
                         </div>
                       </div>
-                      <br /> -->
-
+                      <br /> 
+                      
                       <div class="w3-light-grey">
                         <div
                           class="w3-container w3-blue w3-center w3-padding-large w3-round"
@@ -449,18 +469,18 @@
                           {{impact}}%
                         </div>
                       </div>
+                      
 
                       <!-- <div class="w3-light-grey">
                         <div class="w3-container w3-blue" style="width: 75%;">
                           75%
                         </div>
-                      </div> -->
+                      </div>
                     </div>
                   </div>
                   <div class="services-cap">
                     <h3><a>Impact</a></h3>
-                    <p>
-                      {% for key, values in results.items() %} {% if 'skcount'
+                    <p>{% for key, values in results.items() %} {% if 'skcount'
                       in key.lower() %} {% if values > 0 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         SKILLS -</b
@@ -475,85 +495,81 @@
                       <b>{{values}}</b> of measurable skills in your resume. Try
                       adding more skills related to job you are applying for to
                       increase the impact and results that you had on the job.
-                      {% endif %} {% endif %} {% endfor %}
+                      {% endif %} {% endif %} {% endfor %} 
                       <br />
-
-                      <br />
+                    
+                    <br>
                       {% if ach_msg == 1 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         ACHIEVEMENTS -</b
-                      ><b
-                        >Achievements are things you did that had a lasting
-                        impact for your company or client. It is a result that
-                        you personally bring about while fulfilling a particular
-                        role. An achievement is unique to your experience and
-                        tells the employer that you can deliver.</b
-                      >
+                      ><b>Achievements are things you did that had a lasting impact for your company or client. It is a result that you personally bring about while fulfilling a particular role. An achievement is unique to your experience and tells the employer that you can deliver.</b>
                       {% else %}
 
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> ACHIEVEMENTS -</b>Please clearly highlight your
-                      acheivements. <br /><b
-                        >Achievements are things you did that had a lasting
-                        impact for your company or client. It is a result that
-                        you personally bring about while fulfilling a particular
-                        role. An achievement is unique to your experience and
-                        tells the employer that you can deliver.</b
-                      >
+                      <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                        ACHIEVEMENTS -</b
+                      >Please clearly highlight your acheivements. <br><b>Achievements are things you did that had a lasting impact for your company or client. It is a result that you personally bring about while fulfilling a particular role. An achievement is unique to your experience and tells the employer that you can deliver.</b>
 
-                      {% endif %}
 
-                      <br /><br />
+                      {% endif %} 
+
+
+<br><br>
+
+
+
 
                       {% if cert_msg == 1 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         CERTIFICATIONS -</b
-                      ><b
-                        >When applying for a job, it is crucial to have the
-                        certifications that the employer is looking for since,
-                        very often, the reason for rejections is the lack of
-                        certifications to match your desired career choice. The
-                        employer often lists these as non-negotiable and without
-                        them your CV will be overlooked and you will not be
-                        considered for the position. </b
-                      >
+                      ><b>When applying for a job, it is crucial to have the certifications that the employer is looking for since, very often, the reason for rejections is the lack of certifications to match your desired career choice. The employer often lists these as non-negotiable and without them your CV will be overlooked and you will not be considered for the position. </b>
                       {% else %}
 
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> CERTIFICATIONS -</b>Please clearly highlight your
-                      certifications.<br /><b
-                        >When applying for a job, it is crucial to have the
-                        certifications that the employer is looking for since,
-                        very often, the reason for rejections is the lack of
-                        certifications to match your desired career choice. The
-                        employer often lists these as non-negotiable and without
-                        them your CV will be overlooked and you will not be
-                        considered for the position. </b
-                      >
+                      <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                        CERTIFICATIONS -</b
+                      >Please clearly highlight your certifications.<br><b>When applying for a job, it is crucial to have the certifications that the employer is looking for since, very often, the reason for rejections is the lack of certifications to match your desired career choice. The employer often lists these as non-negotiable and without them your CV will be overlooked and you will not be considered for the position. </b>
 
-                      {% endif %}
 
-                      <br /><br />
+                      {% endif %} 
+
+
+<br><br>
+
 
                       {% if link_msg == 0 %}
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> LINKS -</b>You might want to share some links to
-                      your professional social media pages Like LinkenIn. {%
-                      endif %}
-                    </p>
+                      <img src="/static/criss-cross.png" style="width: 20px" /><b>
+                        LINKS -</b
+                      >You might want to share some links to your professional social media pages Like LinkenIn.
 
+
+                      {% endif %} 
+
+
+
+          
+
+
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    </p>
+                    
                     <br />
                   </div>
                 </div>
                 <div class="services-shape"></div>
               </div>
             </div>
+
+
 
             <div class="col-12">
               <div class="services-wrapper mb-50">
@@ -568,8 +584,8 @@
                           25%
                         </div>
                       </div>
-                      <br /> -->
-
+                      <br /> 
+                     
                       <div class="w3-light-grey">
                         <div
                           class="w3-container w3-red w3-center w3-padding-large w3-round"
@@ -583,93 +599,89 @@
                         <div class="w3-container w3-blue" style="width: 75%;">
                           75%
                         </div>
-                      </div> -->
+                      </div> 
                     </div>
                   </div>
                   <div class="services-cap">
-                    <h3><a>Presentation </a></h3>
+                    <h3><a>Presentation  </a></h3>
                     <p>
+
+
+                      
                       {% if edu_msg == 1 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         EDUCATION -</b
-                      >Good to see that you are using the globally accepted
-                      standards of date formatting. It will be easier for a
-                      recruiter to review your resume. <br />
-                      Clearly mentioning dates in the MM/YYYY format helps the
-                      recruiter in creating a clear picture of your career span
-                      and also helps the ATS systems in calculating your vinatge
-                      in an effective manner.  {% else %}
+                      >Good to see that you are using the globally accepted standards of date formatting. It will be easier for a recruiter to review your resume. <br>
+                      Clearly mentioning dates in the MM/YYYY format helps the recruiter in creating a clear picture of your career span and also helps the ATS systems in calculating your vinatge in an effective manner. 
+                      {% else %}
 
                       <img src="/static/exclaim.png" style="width: 20px" /><b>
                         EDUCATION -</b
-                      >You might want to mention dates in MM YYYY format with
-                      the education details in reverse chronological.<br /><b
-                        >Clearly mentioning dates in the MM/YYYY format helps
-                        the recruiter in creating a clear picture of your career
-                        span and also helps the ATS systems in calculating your
-                        vinatge in an effective manner.
-                      </b>
-                      {% endif %}
+                      >You might want to mention dates in MM YYYY format with the education details in reverse chronological.<br><b>Clearly mentioning dates in the MM/YYYY format helps the recruiter in creating a clear picture of your career span and also helps the ATS systems in calculating your vinatge in an effective manner.
+                        
+</b>
+                      {% endif %} 
 
-                      <br /><br />
+<br><br>
 
-                      {% if vol_msg == 1 %}
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        VOLUNTEER -</b
-                      >If you're looking to enter the corporate world,
-                      having volunteering work on your resume can instantly tell
-                      the employers that you value giving back to the community
-                      just as much as your potential employers
-                      do. Volunteer experience not only makes you stand out, but
-                      also it also helps you gain transferrable skills. {% else
-                      %}
 
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> VOLUNTEER -</b>It would be great to mention your
-                      volunteering exposure to any social causes. <br /><b
-                        >If you're looking to enter the corporate world,
-                        having volunteering work on your resume can instantly
-                        tell the employers that you value giving back to the
-                        community just as much as your potential employers
-                        do. Volunteer experience not only makes you stand out,
-                        but also it also helps you gain transferrable skills.
-                      </b>
+{% if vol_msg == 1 %}
+<img src="/static/tick.png" style="width: 20px" /><b>
+  VOLUNTEER -</b
+>If you're looking to enter the corporate world, having volunteering work on your resume can instantly tell the employers that you value giving back to the community just as much as your potential employers do. Volunteer experience not only makes you stand out, but also it also helps you gain transferrable skills.
+{% else %}
 
-                      {% endif %}
+<img src="/static/criss-cross.png" style="width: 20px" /><b>
+  VOLUNTEER -</b
+>It would be great to mention your volunteering exposure to any social causes.
+<br><b>If you're looking to enter the corporate world, having volunteering work on your resume can instantly tell the employers that you value giving back to the community just as much as your potential employers do. Volunteer experience not only makes you stand out, but also it also helps you gain transferrable skills.
+</b>
 
-                      <br /><br />
+{% endif %} 
 
-                      {% if pro_msg == 1 %}
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        PROJECTS -</b
-                      >It’s good to see that you have involved yourself in
-                      projects. <br />
-                      <b
-                        >Mentioning projects in your resume establishes you as a
-                        successful professional in your field. It demonstrates a
-                        proven track record of success. It also allows potential
-                        employers to mentally map you into a position that
-                        requires a similar skill set.</b
-                      >
-                      {% else %}
+<br><br>
 
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> PROJECTS -</b>You might want to add few projects in
-                      your resume. <br /><b
-                        >Mentioning projects in your resume establishes you as a
-                        successful professional in your field. It demonstrates a
-                        proven track record of success. It also allows potential
-                        employers to mentally map you into a position that
-                        requires a similar skill set.
-                      </b>
 
-                      {% endif %}
+{% if pro_msg == 1 %}
+<img src="/static/tick.png" style="width: 20px" /><b>
+  PROJECTS -</b
+>It’s good to see that you have involved yourself in projects. <br>
+<b>Mentioning projects in your resume establishes you as a successful professional in your field. It demonstrates a proven track record of success. It also allows potential employers to mentally map you into a position that requires a similar skill set.</b>
+{% else %}
 
-                      <br /><br />
+<img src="/static/criss-cross.png" style="width: 20px" /><b>
+  PROJECTS -</b
+>You might want to add few projects in your resume.
+<br><b>Mentioning projects in your resume establishes you as a successful professional in your field. It demonstrates a proven track record of success. It also allows potential employers to mentally map you into a position that requires a similar skill set.
+  </b>
+
+{% endif %} 
+
+<br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </p>
                     <br />
                   </div>
@@ -677,6 +689,12 @@
                 <div class="services-shape"></div>
               </div>
             </div>
+
+
+
+ -->
+
+            <!-- 
 
             <div class="col-12">
               <div class="services-wrapper mb-50">
@@ -695,8 +713,8 @@
 
                       <i class="ti-arrow-right"></i>
 
-                      {{value}} <br />{% endfor %} {% endif %} {% endfor %} -->
-                      <!--ATS FINDINGS-->
+                      {{value}} <br />{% endfor %} {% endif %} {% endfor %} 
+                      
                       {% for key, values in results.items() %} {% if 'WordCount'
                       in key %} {% if values < 1000 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
@@ -713,10 +731,10 @@
                       to under 1000 words to increase focus and for ease of
                       reading by recruiters.
 
-                      <!--END Section-->
+                    
 
                       {% endif %} {% endif %} {% endfor %}
-                      <!--Length-->
+                      
                       <br />
                       {% for key, values in results.items() %} {% if 'Length' in
                       key %} {% if values > 2 %}
@@ -734,8 +752,8 @@
                       The Length of the Resume of <b>{{values}} pages</b> is
                       optimal. {% endif %} {% endif %} {% endfor %}
 
-                      <!--End Length-->
-                      {% if email != "" %}
+                      
+ {% if email != "" %}
                       <br />
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         CONTACT -</b
@@ -750,25 +768,6 @@
                       You have not mentioned contact details like email or phone
                       number. Try incorporating these details to increase your
                       resume score. {% endif %}
-                      <br />
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        FILLER WORDS -</b
-                      >
-
-                      We scanned your resume for common words and adverbs that
-                      recruiters often consider to be superfluous.
-
-                      <br />
-                      <b> NOTE -</b>
-
-                      It's important that potential employers and recruiters can
-                      easily reach you, so ensure you've included your regularly
-                      accessible email address and mobile number. While you
-                      shouldn't necessarily include your full physical address,
-                      recruiters find it easier to determine your eligibility if
-                      you include your current city on your resume. This is
-                      particularly useful if your previous job locations were in
-                      a different city to the job you're now applying for.
 
                       <!-- <br />
                       {% if education == 1 %}
@@ -782,15 +781,15 @@
                       /><b> EDUCATION MATCH -</b>
                       Unfortunately, We couldnot find Education mentioned in the
                       resume. Try adding your education details to increase the
-                      score.{% endif %} -->
+                      score.{% endif %}
 
-                      <!--End Skills -->
+                     
                     </p>
                   </div>
                 </div>
                 <div class="services-shape"></div>
               </div>
-            </div>
+            </div> -->
             <!-- <div class="col-12">
               <div class="services-wrapper mb-50">
                 <div
@@ -884,8 +883,8 @@
                 </div>
                 <div class="services-shape"></div>
               </div>
-            </div> -->
-            <!-- <div class="col-12">
+            </div>
+            <div class="col-12">
               <div class="services-wrapper mb-50">
                 <div
                   class="single-services"
@@ -918,7 +917,7 @@
                         FILLER WORDS -</b
                       >
                       
-                      We scanned your resume for common words and adverbs that recruiters often consider to be superfluous.
+                      we scanned your resume for common words and adverbs that recruiters often consider to be superfluous.
                     </p>
                   </div>
                 </div>
@@ -983,7 +982,7 @@
                 >
                   <div class="services-cap">
                     <h3>
-                      <a href="/demo">Hard Skills </a>
+                      <a href="/demo">General Tips </a>
                     </h3>
                     <br />
                     <p>
@@ -1014,15 +1013,15 @@
                       for communication will help you in that manner.
                       <br />
                       <img src="/static/tick.png" style="width: 20px" /><b>
-                        Leadership -</b
+                        Leadership</b
                       >
                       Employers want to know if you can own a project, manage a
                       team and take responsibility. Using clear action verbs for
                       communication will help you in that manner.
                       <br />
                       <img src="/static/tick.png" style="width: 20px" /><b>
-                        Drive and Initiative -
-                      </b>
+                        Drive and Initiative</b
+                      >
                       Employees who show strong initiative are characterized by
                       their proactivity, selfstarting nature and persistence in
                       solving difficult problems. Using clear action verbs for

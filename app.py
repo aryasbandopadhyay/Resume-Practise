@@ -706,5 +706,301 @@ def uploadfile():
       f.save(secure_filename(f.filename))
       return 'file uploaded successfully'
 
+@app.route('/jd',methods= ["GET",'POST'])
+def jd_analyse():
+    if request.method == 'POST':
+        session.pop('data', None)
+        session['data'] = request.form['jd']
+        
+        print(session['data'])
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('No Selected File')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename= secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+            print('Success')
+            return redirect (url_for('jd_file',filename=filename))
+    return render_template('jd.html')
+
+@app.route('/jd/<filename>')
+def jd_file(filename):
+    f_name = os.path.join(app.config['UPLOAD_FOLDER'],filename)
+    # return f_name
+    global text_main,length,match
+    file_name = f_name
+    print(f_name)
+    impact = 10
+    pres =0
+    text_main = ""
+    edu_msg =0 
+    vol_msg=0
+    pro_msg=0
+    if(file_name[-3:]=="pdf"):
+        print("File is in pdf")
+        match = float(pdf(file_name))
+        if (float(match) == 0):
+            jd_msg = "If it shows zero, probably you have not specified the JD in it field. Try adding a JD to check how accurately your resume matches with the Job."
+        elif (float(match) < 50):
+            jd_msg = "With " +str(match) + "% score you might need to add more skills related to the Job you have been looking for. Try aiming for a score above 80%"
+        else:
+            jd_msg ="With " +str(match) + "% score you seem to be an apt fit for the Job you have been looking for. "
+    elif(file_name[-4:] == "docx" or file_name[-3:] == "doc" ):
+        print("File is in docx")
+        match = docx(file_name)
+        if (float(match) == 0.0):
+            jd_msg = "If it shows zero, probably you have not specified the JD in it field. Try adding a JD to check how accurately your resume matches with the Job."
+        elif (float(match) < 50):
+            jd_msg = "With " +str(match) + " % score you might need to add more skills related to the Job you have been looking for. Try aiming for a score above 80%"
+        else:
+            jd_msg ="With " +str(match) + " % score you seem to be an apt fit for the Job you have been looking for. "
+    else:
+        print("Invalid Fileformat - Supported docx or pdf")
+    #print (text_main)
+    text_count=text_main.split(" ")
+    word_count=len(text_count)
+    liness=[]
+    line=""
+    for i in text_main:
+        if(i!='\n'):
+            line+=i
+        else:
+            liness.append(line)
+            line=""
+    line1=[]
+    for line in liness:
+        if len(line)!=0:
+            line1.append(line)
+    
+    phone=re.findall(r"(?<!\d)\d{10}(?!\d)", text_main)
+    email=re.findall(r"([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)",text_main)
+    #print(email)
+    links= re.findall(r"(^(http\:\/\/|https\:\/\/)?([a-z0-9][a-z0-9\-]*\.)+[a-z0-9][a-z0-9\-]*)",text_main)
+    mlink=[]
+    for link in links:
+        if 'facebook' in link:
+            mlink.append(link)
+        elif 'github' in link:
+            mlink.append(link)
+        elif 'linkedin' in link:
+            mlink.append(link)
+        else:
+            links.remove(link)
+    links=list(set(mlink))
+    section=[]
+    sections={}
+    for x in line1:
+        global keyword
+        if ("expertise" not in x.lower()) and ("role" not in x.lower()) and ("core" not in x.lower()) and ("career" not in x.lower()) and ("technical" not in x.lower()) and ("award" not in x.lower()) and ("winning" not in x.lower()) and ("education" not in x.lower()) and ("experience" not in x.lower()) and ("project" not in x.lower()) and ("skill" not in x.lower()) and ("award" not in x.lower()) and ("project" not in x.lower()) and ("course" not in x.lower()) and ("certificat" not in x.lower()) and ("volunteer" not in x.lower()) and ("personal" not in x.lower()) and ("interest" not in x.lower()) and ("position" not in x.lower()):
+            section.append(x)
+            #print(section)
+        elif (len(x.split(" "))>=4):
+            section.append(x)
+            #print(section)  
+        else :
+            sections[keyword] = section
+            keyword = x
+            section =[]
+    
+    sections['phone']=list(set(phone))
+    sections['links']=mlink
+    if (len(mlink) != 0):
+        impact+=5
+    imp_sec=["education","experience","expertise","role","career","skill","award","certificat","project",'volunteer']
+    score = 0
+    msg = []
+    edu=0
+    ach_msg = 0 #achievement variable message
+    cert_msg = 0 #certification message flag
+    sections['edu_year']=""
+    sections['exp_year']=""
+    sections['paragraph']=0
+    for key in sections.keys():
+        #print(key)
+        for sec in imp_sec:
+            if sec in key.lower():
+                #print(sec,type(sec),"Hi")
+                if(sec=="education" or sec=="school" or sec=="college"):
+                    score +=10
+                    pres+=10
+                    edu = 1
+                    edu_msg =1
+                    sections['edu_year']=extract(sections[key])
+                    sections['paragraph']+=paragraph_check(sections[key])
+                    #print(dummy_edu)
+                    msg.append("Education Section is Present")
+                    break
+                if(sec=="experience" or sec=="work experience" or sec=="job" or sec=="job titles" or sec=="position description" or sec=="work" or sec=="role"):
+                    score +=20
+                    sections['exp_year']=extract(sections[key])
+                    impact+=20
+                    sections['paragraph']+=paragraph_check(sections[key])
+                    #print(dummy_exp)
+                    msg.append("Experience Section is Present")
+                    break
+                if(sec=="skill"):
+                    score +=20
+                    msg.append("Skills Section is Present")
+                    sections['paragraph']+=paragraph_check(sections[key])
+                    break
+                if(sec=="award"):
+                    score +=5
+                    impact+=5
+                    ach_msg = 1
+                    sections['paragraph']+=paragraph_check(sections[key])
+                    msg.append("Awards/Achievement Section is Present")
+                    break
+                if(sec=="volunteer"):
+                    pres+=5
+                    score +=5
+                    vol_msg =1
+                    msg.append("Volunteering Section is Present")
+                    break
+                if(sec=="certificat"):
+                    impact+=5
+                    score +=10
+                    cert_msg=1
+                    msg.append("Certificate Section is Present")
+                    break
+                if(sec=="project"):
+                    pres+=10
+                    score +=10
+                    pro_msg=1
+                    sections['paragraph']+=paragraph_check(sections[key])
+                    msg.append("Projects Section is Present")
+                    break
+    #print("EDU MSG",edu_msg)
+    sections['Message']=msg
+    # sections['Score']=round(((score/98)*100),2)
+    rev=""
+    '''misspelled = spell.unknown(text_main)
+    sections["Errors"]=[]
+    for word in misspelled :
+        if(len(word))>3:
+            sections["Errors"].append(word)'''
+            
+    stop_words = set(stopwords.words('english')) 
+    d=""
+    skillsets=1
+    filtered_sentence=[]
+    
+    for i in sections.keys():
+        if(i.lower()=="work experience"):
+            score +=5
+        if(i.lower()=="core competencies"):
+            score +=5            
+        if 'skill' in i.lower():
+            skillsets=len(sections[i])
+            for j in sections[i]:
+                
+                d=d+" "+j
+            d = word_tokenize(d)
+            # print("I am here 2")
+            #print(d)
+            for w in d: 
+                if w not in stop_words: 
+                    if(len(w)>3):
+                        filtered_sentence.append(w)
+    sections['SkCount']=skillsets
+    sections['original']=filtered_sentence
+    sections['linkedin']=Find(text_main)
+    ck=sections['linkedin']
+    link_msg=1
+    if(len(ck) == 0):
+        link_msg=0
+    #print(type(len(ck)))
+    #print('Heyo',sections['linkedin'])
+    ac=0
+    rd=0
+    if actionwords(text_main) > 5:
+        act_msg =1
+        ac=10
+        sections['action_word']="Your resume contains Action Verbs! Strong, unique action verbs show hiring managers that you have held different roles and skill sets. They also help your accomplishments stand out and make them more impactful."
+    elif actionwords(text_main)<=5:
+        act_msg =0
+        sections['action_word']="Your resume doesnt contain much Action Verbs! Strong, unique action verbs show hiring managers that you have held different roles and skill sets. They also help your accomplishments stand out and make them more impactful. "
+        
+    
+    
+    #print(sections['action_word'])
+    
+    if redundancy(text_main) > 10:
+        rd=5
+        sections['redundancy']="1"
+    elif redundancy(text_main)<=10:
+        sections['redundancy']="0"
+        
+    
+    #sections['edu_year']=extract(sections[dummy_edu])
+    #print(sections['exp_year'])
+    #print(sections['edu_year'])
+    #print(sections['redundancy'])
+    #print(filtered_sentence)
+    sections['match']=match
+    # Checking of resume score for message
+    if(score == 100):
+        rev="The score looks perfect but to get a more accurate comparison with the job you are looking for try analysing by adding Job Description"
+    elif(score < 60):
+        rev="This suggests there is a lot of room for improvement. But don't worry! We have highlighted a number of quick fixes you can make to improve your resume's score and your success rate. Try adding more missing skills into your resume to increase your match rate to 80% or above."
+    else:
+        rev="The score of "+ str(score)+" looks quite good however we have highlighted a number of quick fixes you can make to improve your resume's score. Try adding more missing skills into your resume to increase your match rate."
+    sections["Review"]=rev
+    sections["Length"]=length
+    sections["WordCount"]=word_count
+    if sections["WordCount"] <= 600 :
+        score += 5
+        sections['Message'].append("Word Count of the Resume is Optimal")
+    else:
+        sections['Message'].append("Word Count should be less than 600")
+
+    if sections["Length"] <= 2 :
+        score += 5
+        sections['Message'].append("Length of Resume is Optimal")
+    else:
+        sections['Message'].append("Length of Resume should not exceed 2 pages")
+    sections['Score']=round(((score/100)*100),2) #calculating score out of overall score.
+    if(sections['Score'] >=90 and sections['Score'] <100):
+        sections["Review"]="The Resume is correctly Parsed and Optimal. There may be some room for Improvement"
+    if(sections['Score'] >=75 and sections['Score']<90):
+        sections["Review"]="The Resume may be Correctly Parsed and Optimal. It is advised to pass DOCX Format in ATS Checker. There is certainly Some Room For Improvement"        
+    count_passive=0
+    co_pa=0
+    for i in line1:
+        if(is_passive(i)):
+            count_passive += 1
+            
+    if(count_passive > 5):
+        co_pa= 1
+        
+    else:
+        co_pa=0
+        ac += 5
+    #print(impact)
+    co_ta=0
+    count_tenses=0
+    for i in line1:
+        if(tenses_res(i)):
+            count_tenses += 1
+            
+    if(count_tenses >= 5):
+        co_ta= 1
+        
+    else:
+        co_ta=0
+        ac += 5
+        
+    if sections['paragraph'] <= 2:
+        ac += 5
+    print("I am new")
+    #end of check
+    #print(pro_msg,edu_msg,sections['redundancy'],vol_msg,cert_msg,link_msg,ach_msg,act_msg)
+    return render_template('service_jd.html', results=sections,pro_msg=pro_msg,edu_msg=edu_msg,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],vol_msg=vol_msg,cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,count_pass=co_pa,count_tense=co_ta,act_msg=act_msg,para=sections['paragraph'],depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
+    #return render_template('display.html', results=sections)   
+
+
 if __name__ == '__main__':
     app.run()
