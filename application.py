@@ -401,7 +401,7 @@ def uploaded_file(filename):
     elif(score < 60):
         rev="This suggests there is a lot of room for improvement. But don't worry! We have highlighted a number of quick fixes you can make to improve your resume's score and your success rate. Try adding more missing skills into your resume to increase your match rate to 80% or above."
     else:
-        rev="The score of "+ str(score)+" looks quite good however we have highlighted a number of quick fixes you can make to improve your resume's score. Try adding more missing skills into your resume to increase your match rate."
+        rev="Your score looks quite good however we have highlighted a number of quick fixes you can make to improve your resume's score. Try adding more missing skills into your resume to increase your match rate."
     sections["Review"]=rev
     sections["Length"]=length
     sections["WordCount"]=word_count

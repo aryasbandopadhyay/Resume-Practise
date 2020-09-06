@@ -86,7 +86,7 @@
                             <li><a href="elements.html">Element</a></li>
                           </ul>
                         </li> -->
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="/contact">Contact</a></li>
                       </ul>
                     </nav>
                   </div>
@@ -336,18 +336,20 @@
 
                       {% endif %}
                       <br /><br />
-                      {% if count_pass == 0%}
+                      {% if count_pass == 0 and count_tense == 0%}
 
                       <img src="/static/tick.png" style="width: 20px" /><b>
-                        ACTIVE PASSIVE SENTENCES -</b
-                      >Great to see that your bullet points are in Active Voice
-                      in your resume. {% else %}
+                        GRAMMAR -</b
+                      >You have used correct grammar in your resume. The tenses are correct along with the active pasive sentences. 
+                      {% else %}
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
-                      /><b> ACTIVE PASSIVE SENTENCES -</b>
-                      Your bullet points are in Passive Voice and you need to
-                      change them to active. {% endif %}
+                      /><b> GRAMMER -</b>
+                      You might want to check the grammar in your resume, use correct tenses and active-passive sentences.
+                       {% endif %}
+                      <br />
+                      <b>When developing your resume, always pay attention to grammar and spelling throughout the document. A resume with proper grammar and no spelling errors is essential in a job search. Carelessness with spelling, grammar, and choice of words may not create a favorable impression in the mind of the hiring manager. Choose past tense when talking about the roles that you held but no longer do. Use the present tense to explain what you do currently.<b/>
                       <br /><br />
                       {% if rud_mdg == "1" %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
@@ -358,7 +360,9 @@
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
-                      /><b> REDUNDANCY -</b>We can see some words being used
+                      /><b>
+                        REDUNDANCY -</b
+                      >We can see some words being used
                       repetitvely in your resume, please consider using synonyms
                       to add more and diverse meaing to your resume. {% endif %}
                       <br /><b
@@ -371,25 +375,13 @@
                         using powerful verbs and adjectives. Creating this
                         strong impression can help you to avoid redundancy by
                         carefully choosing the words and phrases that you
-                        use.</b
-                      >
-                      <br />
-                      {% if count_tense == 0 %}
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        TENSE -</b
-                      >Glad to see you have used correct tenses in your
-                      sentences. {% else %}
-                      <br />
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
-                      /><b> TENSE -</b>Ensure that you are using the right
-                      tenses when describing your accomplishment {% endif %}
+                        use.</b>
                       <br /><br />
+                      
                       {% if para <= 2 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         BULLET POINTS -</b
-                      >Glad to see you have used less number of paragraphs and
+                     >Glad to see you have used less number of paragraphs and
                       more bullet points in your Resume. This helps recruiters
                       skim through your resume qucikly and it creates a positive
                       impression. {% else %}
@@ -397,7 +389,8 @@
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
-                      /><b> BULLET POINTS -</b>Ensure that you are using Bullet
+                      /><b> BULLET POINTS -</b
+                      >Ensure that you are using Bullet
                       Points when describing your accomplishment because
                       recruiters prefer skiimming through your resume quickly
                       and paragraphs make it Difficult for them. {% endif %}
@@ -1383,8 +1376,8 @@
                   <div class="footer-tittle">
                     <h4>Quick Link</h4>
                     <ul>
-                      <li><a href="#">Contact Us</a></li>
-                      <li><a href="#">What is Reset your Career</a></li>
+                      <li><a href="/contact">Contact Us</a></li>
+                      <li><a href="/about">What is Reset your Career</a></li>
                       <li><a href="#">Blogs</a></li>
                       <li><a href="#">Privacy Policy</a></li>
                     </ul>
