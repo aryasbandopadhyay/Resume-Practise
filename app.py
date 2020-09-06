@@ -82,7 +82,7 @@ match=""
 def uploaded_file(filename):
     f_name = os.path.join(app.config['UPLOAD_FOLDER'],filename)
     # return f_name
-    global text_main,length,match
+    global text_main,length,match,keyword
     file_name = f_name
     print(f_name)
     impact = 0
@@ -180,11 +180,18 @@ def uploaded_file(filename):
     links=list(set(mlink))
     section=[]
     sections={}
+    line2=[]
     titles=['education','Licensures', 'Professional Qualification', 'academic qualification', 'Educational Qualification', 'academia', 'education and professional development', 'academic credentials', 'educational summary', 'academic profile', 'Experience', 'work experience', 'Job Titles held', 'Position Description and purpose', 'Professional Experience', 'Professional Summary', 'Profile', 'Qualifications', 'Employment History', 'history', 'previous employment', 'organisational experience', 'employers', 'positions of responsibility','Position of Responsibilities', 'employment scan', 'past experience', 'organizational experience', 'career', 'experience and qualification summary', 'relevant experience', 'experience summary', 'career synopsis', 'career timeline', 'banking IT experience', 'AML & FCM Suite Experience', 'employment details', 'Skill','skills', 'Technical Skills', 'Soft Skills', 'Key Skills', 'Design Skills', 'Expertise', 'Abilities', 'Area of Expertise', 'Key attributes', 'Computer Skills', 'IT Skills', 'Technical Expertise', 'Technical Skills Set', 'Functional Skill Set', 'functional skills', 'strengths', 'areas of expertise', 'banking knowledge', 'Award', 'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','awards/achievements', 'Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training','Coursework','other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','Project','projects', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc','Extra Curricular Activities', 'Community Service','EDUCATIONAL BACKGROUND','INTERNSHIPS EXPERIENCE','WINNING PORTFOLIO','AWARDS & RECOGNITIONS','CORE COMPETENCIES','PROJECTS ADMINISTERED','TECHNICAL SKILLS','CERTIFICATIONS','VOLUNTEERING','PERSONAL DOSSIER']
     titles1=[x.lower() for x in titles]
+    for i in line1:
+        if i[-1]==" ":
+            line2.append(i[:-1])
+        else:
+            line2.append(i)
     #print(titles1)
+    line1=line2
     for x in line1:
-        print(x.lower() in titles1,x.lower())
+        #print(x.lower() in titles1,repr(x.lower()))
         global keyword
         if x.lower() not in titles1:
             section.append(x)
@@ -194,9 +201,16 @@ def uploaded_file(filename):
             #section.append(x)
             #print(section)  
         else :
-            sections[keyword] = section
-            keyword = x
-            section =[]
+            if(len(section)!=0):
+                sections[keyword] = section
+                keyword = x
+                print(sections)
+                section =[]
+            else:
+                sections[keyword]=[]
+                keyword=x
+                section =[]
+                print(sections)
     
     sections['phone']=list(set(phone))
     sections['links']=mlink
@@ -209,7 +223,7 @@ def uploaded_file(filename):
     aw_list=['Award' ,'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','AWARDS & RECOGNITIONS','awards','achievements']
     ce_list=['Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training', 'other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','CERTIFICATIONS','coursework', 'competencies']
     pe_list=['Project', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','PROJECTS ADMINISTERED','projects']
-    vo_list=['Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc', 'Community Service','VOLUNTEERING','extra curricular activities']
+    vo_list=['Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc', 'Community Service','VOLUNTEERING','extra curricular activities','EXTRA-CURRICULAR INVOLVEMENT']
     ed1_list=[x.lower() for x in ed_list]
     ex1_list=[x.lower() for x in ex_list]
     sk1_list=[x.lower() for x in sk_list]
@@ -221,65 +235,86 @@ def uploaded_file(filename):
     score = 0
     msg = []
     edu=0
+    ed=0
+    ex=0
+    sk=0
+    aw=0
+    ce=0
+    pe=0
+    vo=0
     ach_msg = 0 #achievement variable message
     cert_msg = 0 #certification message flag
     sections['edu_year']=""
     sections['exp_year']=""
     sections['paragraph']=0
+    print(sections.keys())
     for key in sections.keys():
-        #print(key)
-        for sec in titles1:
-            if sec == key.lower():
+        print(repr(key))
+        #for sec in titles1:
+            #if sec == key.lower():
                 #print(sec,type(sec),"Hi")
-                if(sec in ed1_list):
-                    score +=10
-                    pres+=10
-                    edu = 1
-                    edu_msg =1
-                    sections['edu_year']=extract(sections[key])
-                    sections['paragraph']+=paragraph_check(sections[key])
-                    print(key)
-                    msg.append("Education Section is Present")
-                    break
-                if(sec in ex1_list):
-                    score +=20
-                    sections['exp_year']=extract(sections[key])
-                    impact+=20
-                    sections['paragraph']+=paragraph_check(sections[key])
+        if(key.lower() in ed1_list and ed==0):
+            score +=10
+            pres+=10
+            edu = 1
+            ed=1
+            edu_msg =1
+            sections['edu_year']=extract(sections[key])
+            sections['paragraph']+=paragraph_check(sections[key])
+            #print(key)
+            msg.append("Education Section is Present")
+            print(score)
+            
+        if(key.lower() in ex1_list and ex==0):
+            score +=20
+            ex=1
+            sections['exp_year']=extract(sections[key])
+            impact+=20
+            sections['paragraph']+=paragraph_check(sections[key])
                     #print(dummy_exp)
-                    msg.append("Experience Section is Present")
-                    break
-                if(sec in sk1_list):
-                    score +=20
-                    msg.append("Skills Section is Present")
-                    sections['paragraph']+=paragraph_check(sections[key])
-                    break
-                if(sec in aw1_list):
-                    score +=5
-                    impact+=5
-                    ach_msg = 1
-                    sections['paragraph']+=paragraph_check(sections[key])
-                    msg.append("Awards/Achievement Section is Present")
-                    break
-                if(sec in vo1_list):
-                    pres+=5
-                    score +=5
-                    vol_msg =1
-                    msg.append("Volunteering Section is Present")
-                    break
-                if(sec in ce1_list):
-                    impact+=5
-                    score +=10
-                    cert_msg=1
-                    msg.append("Certificate Section is Present")
-                    break
-                if(sec== pe1_list):
-                    pres+=10
-                    score +=10
-                    pro_msg=1
-                    sections['paragraph']+=paragraph_check(sections[key])
-                    msg.append("Projects Section is Present")
-                    break
+            msg.append("Experience Section is Present")
+            print(score)
+            
+        if(key.lower() in sk1_list and sk==0):
+            score +=20
+            sk=1
+            msg.append("Skills Section is Present")
+            sections['paragraph']+=paragraph_check(sections[key])
+            
+        if(key.lower() in aw1_list and aw==0):
+            score +=5
+            impact+=5
+            aw=1
+            ach_msg = 1
+            sections['paragraph']+=paragraph_check(sections[key])
+            msg.append("Awards/Achievement Section is Present")
+            print(score)
+            
+        if(key.lower() in vo1_list and vo==0):
+            pres+=5
+            score +=5
+            vo=1
+            vol_msg =1
+            msg.append("Volunteering Section is Present")
+            print(score)
+            
+        if(key.lower() in ce1_list and ce==0):
+            impact+=5
+            score +=10
+            cert_msg=1
+            ce=1
+            msg.append("Certificate Section is Present")
+            print(score)
+            
+        if(key.lower() in pe1_list and pe==0):
+            pres+=10
+            pe=1
+            score +=10
+            pro_msg=1
+            sections['paragraph']+=paragraph_check(sections[key])
+            msg.append("Projects Section is Present")
+            print(score)
+            
     #print("EDU MSG",edu_msg)
     sections['Message']=msg
     # sections['Score']=round(((score/98)*100),2)
@@ -295,25 +330,27 @@ def uploaded_file(filename):
     skillsets=1
     filtered_sentence=[]
     
-    for i in sections.keys():
-        if(i.lower()=="work experience"):
-            score +=5
-        if(i.lower()=="core competencies"):
-            score +=5            
-        if 'skill' in i.lower():
-            skillsets=len(sections[i])
-            for j in sections[i]:
-                
-                d=d+" "+j
-            d = word_tokenize(d)
-            # print("I am here 2")
-            #print(d)
-            for w in d: 
-                if w not in stop_words: 
-                    if(len(w)>3):
-                        filtered_sentence.append(w)
+# =============================================================================
+#     for i in sections.keys():
+#         if(i.lower()=="work experience"):
+#             score +=5
+#         if(i.lower()=="core competencies"):
+#             score +=5            
+#         if 'skill' in i.lower():
+#             skillsets=len(sections[i])
+#             for j in sections[i]:
+#                 
+#                 d=d+" "+j
+#             d = word_tokenize(d)
+#             # print("I am here 2")
+#             #print(d)
+#             for w in d: 
+#                 if w not in stop_words: 
+#                     if(len(w)>3):
+#                         filtered_sentence.append(w)
+# =============================================================================
     sections['SkCount']=skillsets
-    sections['original']=filtered_sentence
+    #sections['original']=filtered_sentence
     sections['linkedin']=Find(text_main)
     ck=sections['linkedin']
     link_msg=1
@@ -407,7 +444,7 @@ def uploaded_file(filename):
         ac += 5
         
     
-    #print(sections.keys())
+    print(sections.keys())
     
         
     #end of check
