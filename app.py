@@ -31,9 +31,16 @@ from pickle import dump, load
 from nltk.corpus import brown
 from itertools import dropwhile
 from nltk import word_tokenize, pos_tag
+# =============================================================================
+# from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+# from pdfminer.converter import TextConverter
+# from pdfminer.layout import LAParams
+# from pdfminer.pdfpage import PDFPage
+from io import StringIO
+# =============================================================================
+#import codecs
 
-
-
+from pdfminer.high_level import extract_text
 import spacy
 nlp = spacy.load('en_core_web_sm')
 from spacy.matcher import Matcher
@@ -78,12 +85,13 @@ def uploaded_file(filename):
     global text_main,length,match
     file_name = f_name
     print(f_name)
-    impact = 10
+    impact = 0
     pres =0
     text_main = ""
     edu_msg =0 
     vol_msg=0
     pro_msg=0
+    jd_msg=""
     if(file_name[-3:]=="pdf"):
         print("File is in pdf")
         match = float(pdf(file_name))
@@ -109,16 +117,46 @@ def uploaded_file(filename):
     word_count=len(text_count)
     liness=[]
     line=""
+    line1=[]
     for i in text_main:
+            
         if(i!='\n'):
             line+=i
         else:
             liness.append(line)
             line=""
-    line1=[]
+        
     for line in liness:
         if len(line)!=0:
             line1.append(line)
+# =============================================================================
+#     if(file_name[-4:] == "docx" or file_name[-3:] == "doc" ):
+#         for i in text_main:
+#             
+#             if(i!='\n'):
+#                 line+=i
+#             else:
+#                 liness.append(line)
+#                 line=""
+#         
+#         for line in liness:
+#             if len(line)!=0:
+#                 line1.append(line)
+#     elif(file_name[-3:]=="pdf"):
+#         for i in range(len(text_main)-1):
+#             if(text_main[i]=="\\" ):
+#                if(text_main[i+1]=='n'):
+#                    liness.append(line)
+#                    line=""
+#                else:
+#                    line+=text_main[i]
+#                 
+#         
+#         for line in liness:
+#             if len(line)!=0:
+#                 line1.append(line)
+# =============================================================================
+    
     
     phone=re.findall(r"(?<!\d)\d{10}(?!\d)", text_main)
     email=re.findall(r"([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)",text_main)
@@ -137,13 +175,16 @@ def uploaded_file(filename):
     links=list(set(mlink))
     section=[]
     sections={}
+    titles=['education','Licensures', 'Professional Qualification', 'academic qualification', 'Educational Qualification', 'academia', 'education and professional development', 'academic credentials', 'educational summary', 'academic profile', 'Experience', 'work experience', 'Job Titles held', 'Position Description and purpose', 'Professional Experience', 'Professional Summary', 'Profile', 'Qualifications', 'Employment History', 'history', 'previous employment', 'organisational experience', 'employers', 'positions of responsibility', 'employment scan', 'past experience', 'organizational experience', 'career', 'experience and qualification summary', 'relevant experience', 'experience summary', 'career synopsis', 'career timeline', 'banking IT experience', 'AML & FCM Suite Experience', 'employment details', 'Skill', 'Technical Skills', 'Soft Skills', 'Key Skills', 'Design Skills', 'Expertise', 'Abilities', 'Area of Expertise', 'Key attributes', 'Computer Skills', 'IT Skills', 'Technical Expertise', 'Technical Skills Set', 'Functional Skill Set', 'functional skills', 'strengths', 'areas of expertise', 'banking knowledge', 'Award', 'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','awards/achievements', 'Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training', 'other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','Project', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc', 'Community Service','EDUCATIONAL BACKGROUND','INTERNSHIPS EXPERIENCE','WINNING PORTFOLIO','AWARDS & RECOGNITIONS','CORE COMPETENCIES','PROJECTS ADMINISTERED','TECHNICAL SKILLS','CERTIFICATIONS','VOLUNTEERING','PERSONAL DOSSIER']
+    titles1=[x.lower() for x in titles]
+    #print(titles1)
     for x in line1:
         global keyword
-        if ("expertise" not in x.lower()) and ("role" not in x.lower()) and ("core" not in x.lower()) and ("career" not in x.lower()) and ("technical" not in x.lower()) and ("award" not in x.lower()) and ("winning" not in x.lower()) and ("education" not in x.lower()) and ("experience" not in x.lower()) and ("project" not in x.lower()) and ("skill" not in x.lower()) and ("award" not in x.lower()) and ("project" not in x.lower()) and ("course" not in x.lower()) and ("certificat" not in x.lower()) and ("volunteer" not in x.lower()) and ("personal" not in x.lower()) and ("interest" not in x.lower()) and ("position" not in x.lower()):
+        if x.lower() not in titles1:
             section.append(x)
             #print(section)
-        elif (len(x.split(" "))>=4):
-            section.append(x)
+        #elif (len(x.split(" "))>=4):
+            #section.append(x)
             #print(section)  
         else :
             sections[keyword] = section
@@ -154,7 +195,22 @@ def uploaded_file(filename):
     sections['links']=mlink
     if (len(mlink) != 0):
         impact+=5
-    imp_sec=["education","experience","expertise","role","career","skill","award","certificat","project",'volunteer']
+    #imp_sec=["education","experience","expertise","role","career","skill","award","certificat","projects",'volunteer']
+    ed_list=['Education', 'Licensures', 'Professional Qualification', 'academic qualification', 'Educational Qualification', 'academia', 'education and professional development', 'academic credentials', 'educational summary', 'academic profile','EDUCATIONAL BACKGROUND']
+    ex_list=['Experience', 'work experience', 'Job Titles held', 'Position Description and purpose', 'Professional Experience', 'Professional Summary', 'Profile', 'Qualifications', 'Employment History', 'history', 'previous employment', 'organisational experience', 'employers', 'positions of responsibility', 'employment scan','past experience', 'organizational experience', 'career', 'experience and qualification summary', 'relevant experience', 'experience summary', 'career synopsis', 'career timeline', 'banking IT experience', 'AML & FCM Suite Experience', 'employment details','INTERNSHIPS EXPERIENCE']
+    sk_list=['Skill', 'Technical Skills', 'Soft Skills', 'Key Skills', 'Design Skills', 'Expertise', 'Abilities', 'Area of Expertise', 'Key attributes', 'Computer Skills', 'IT Skills', 'Technical Expertise', 'Technical Skills Set', 'Functional Skill Set', 'functional skills', 'strengths', 'areas of expertise', 'banking knowledge','WINNING PORTFOLIO','CORE COMPETENCIES','TECHNICAL SKILLS']
+    aw_list=['Award' ,'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','AWARDS & RECOGNITIONS']
+    ce_list=['Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training', 'other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','CERTIFICATIONS']
+    pe_list=['Project', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','PROJECTS ADMINISTERED',]
+    vo_list=['Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc', 'Community Service','VOLUNTEERING']
+    ed1_list=[x.lower() for x in ed_list]
+    ex1_list=[x.lower() for x in ex_list]
+    sk1_list=[x.lower() for x in sk_list]
+    aw1_list=[x.lower() for x in aw_list]
+    ce1_list=[x.lower() for x in ce_list]
+    pe1_list=[x.lower() for x in pe_list]
+    vo1_list=[x.lower() for x in vo_list]
+    #print(vo1_list)
     score = 0
     msg = []
     edu=0
@@ -165,20 +221,20 @@ def uploaded_file(filename):
     sections['paragraph']=0
     for key in sections.keys():
         #print(key)
-        for sec in imp_sec:
-            if sec in key.lower():
+        for sec in titles1:
+            if sec == key.lower():
                 #print(sec,type(sec),"Hi")
-                if(sec=="education" or sec=="school" or sec=="college"):
+                if(sec in ed1_list):
                     score +=10
                     pres+=10
                     edu = 1
                     edu_msg =1
                     sections['edu_year']=extract(sections[key])
                     sections['paragraph']+=paragraph_check(sections[key])
-                    #print(dummy_edu)
+                    print(key)
                     msg.append("Education Section is Present")
                     break
-                if(sec=="experience" or sec=="work experience" or sec=="job" or sec=="job titles" or sec=="position description" or sec=="work" or sec=="role"):
+                if(sec in ex1_list):
                     score +=20
                     sections['exp_year']=extract(sections[key])
                     impact+=20
@@ -186,31 +242,31 @@ def uploaded_file(filename):
                     #print(dummy_exp)
                     msg.append("Experience Section is Present")
                     break
-                if(sec=="skill"):
+                if(sec in sk1_list):
                     score +=20
                     msg.append("Skills Section is Present")
                     sections['paragraph']+=paragraph_check(sections[key])
                     break
-                if(sec=="award"):
+                if(sec in aw1_list):
                     score +=5
                     impact+=5
                     ach_msg = 1
                     sections['paragraph']+=paragraph_check(sections[key])
                     msg.append("Awards/Achievement Section is Present")
                     break
-                if(sec=="volunteer"):
+                if(sec in vo1_list):
                     pres+=5
                     score +=5
                     vol_msg =1
                     msg.append("Volunteering Section is Present")
                     break
-                if(sec=="certificat"):
+                if(sec in ce1_list):
                     impact+=5
                     score +=10
                     cert_msg=1
                     msg.append("Certificate Section is Present")
                     break
-                if(sec=="project"):
+                if(sec== pe1_list):
                     pres+=10
                     score +=10
                     pro_msg=1
@@ -344,7 +400,7 @@ def uploaded_file(filename):
         ac += 5
         
     
-    
+    print(sections.keys())
     
         
     #end of check
@@ -372,12 +428,39 @@ def docx(name):
     text_main = resume
     kk = analyser(text)
     return kk
+# =============================================================================
+# def convert_pdf_to_txt(path):
+#     rsrcmgr = PDFResourceManager()
+#     retstr = StringIO()
+#     codec = 'utf-8'
+#     laparams = LAParams()
+#     device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
+#     fp = open(path, 'rb')
+#     interpreter = PDFPageInterpreter(rsrcmgr, device)
+#     password = ""
+#     maxpages = 0
+#     caching = True
+#     pagenos=set()
+# 
+#     for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password,caching=caching, check_extractable=True):
+#         interpreter.process_page(page)
+# 
+#     text = retstr.getvalue()
+# 
+#     fp.close()
+#     device.close()
+#     retstr.close()
+#     return text
+# =============================================================================
 def pdf(name):
     global text_main,length
-    c=""
-    with pdfplumber.open(name) as pdf:
-        for pages in pdf.pages:
-            c +="\n" + str(pages.extract_text())
+    c=extract_text(name)
+    print(c)
+# =============================================================================
+#     with pdfplumber.open(name) as pdf:
+#         for pages in pdf.pages:
+#             c +="\n" + str(pages.extract_text())
+# =============================================================================
     # f = open('jd.txt', 'r')
     jd= session['data']  
     # print(txt)
@@ -392,6 +475,33 @@ def pdf(name):
     kk = analyser(text)
     text_main = c
     return kk
+    
+
+# =============================================================================
+#     text = convert_pdf_to_txt(name)
+# 
+#     c=repr(text)
+#     
+#     
+#     c=codecs.decode(c, 'unicode_escape')
+#     print(c)
+# =============================================================================
+    # f = open('jd.txt', 'r')
+# =============================================================================
+#     jd= session['data']  
+#     # print(txt)
+#     text =[c, jd]
+#     
+#     pdf = PdfFileReader(open(name,'rb'))
+#     page = pdf.getNumPages()
+#     length = page
+#     print("Number of Pages ",page)
+#     if(page > 2):
+#         print("Try to shorten your CV below 2 pages")
+#     kk = analyser(text)
+#     text_main = c
+#     return kk
+# =============================================================================
 def analyser(text):
     cv =CountVectorizer()
     count_matrix = cv.fit_transform(text)
@@ -503,6 +613,7 @@ def RedundancyCheck(listOfElems):
 
 def extract(text):
     c=""
+    year=[]
     for i in text:
         c+=i+" "
     for key in c:
