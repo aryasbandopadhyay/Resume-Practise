@@ -193,24 +193,34 @@ def uploaded_file(filename):
     for x in line1:
         #print(x.lower() in titles1,repr(x.lower()))
         global keyword
-        if x.lower() not in titles1:
+        if(x==line1[-1]):
+        
+            section.append(x)
+            sections[keyword] = section
+            keyword = x
+                #print(sections)
+            section =[]
+            break
+        elif x.lower() not in titles1:
             section.append(x)
             #print(x)
             #print(section)
         #elif (len(x.split(" "))>=4):
             #section.append(x)
             #print(section)  
+        
+            
         else :
             if(len(section)!=0):
                 sections[keyword] = section
                 keyword = x
-                print(sections)
+                #print(sections)
                 section =[]
             else:
                 sections[keyword]=[]
                 keyword=x
                 section =[]
-                print(sections)
+                #print(sections)
     
     sections['phone']=list(set(phone))
     sections['links']=mlink
@@ -221,7 +231,7 @@ def uploaded_file(filename):
     ex_list=['Experience', 'work experience', 'Job Titles held', 'Position Description and purpose', 'Professional Experience', 'Professional Summary', 'Profile', 'Qualifications', 'Employment History', 'history', 'previous employment', 'organisational experience', 'employers', 'positions of responsibility', 'employment scan','past experience', 'organizational experience', 'career', 'experience and qualification summary', 'relevant experience', 'experience summary', 'career synopsis', 'career timeline', 'banking IT experience', 'AML & FCM Suite Experience', 'employment details','INTERNSHIPS EXPERIENCE']
     sk_list=['Skill', 'Technical Skills', 'Soft Skills', 'Key Skills', 'Design Skills', 'Expertise', 'Abilities', 'Area of Expertise', 'Key attributes', 'Computer Skills', 'IT Skills', 'Technical Expertise', 'Technical Skills Set', 'Functional Skill Set', 'functional skills', 'strengths', 'areas of expertise', 'banking knowledge','WINNING PORTFOLIO','CORE COMPETENCIES','TECHNICAL SKILLS','skills']
     aw_list=['Award' ,'Honours and awards', 'Key achievements', 'Accomplishments', 'Highlights', 'Affiliations', 'Achievements', 'Extra Curricular activities and achievements', 'awards and recognition','AWARDS & RECOGNITIONS','awards','achievements']
-    ce_list=['Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training', 'other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','CERTIFICATIONS','coursework', 'competencies']
+    ce_list=['Certificate', 'Most proud of', 'Specialization', 'Certifications', 'Certification/training', 'other credentials', 'professional accomplishments', 'certification & trainings', 'scholastics', 'professional credentials and certifications','CERTIFICATION','coursework', 'competencies']
     pe_list=['Project', 'Additional Activities', 'Activities', 'Major Tasks', 'Responsibilities', 'key accountabilities', 'Contributions', 'Personal Projects', 'Key Contributions', 'Strategic Planning and execution', 'Academic projects', 'Key projects', 'projects/trainings', 'key implementations','PROJECTS ADMINISTERED','projects']
     vo_list=['Volunteer', 'Volunteer Experience', 'Affiliations', 'Misc', 'Community Service','VOLUNTEERING','extra curricular activities','EXTRA-CURRICULAR INVOLVEMENT']
     ed1_list=[x.lower() for x in ed_list]
@@ -1001,6 +1011,14 @@ def jd_file(filename):
     return render_template('service_jd.html', results=sections,pro_msg=pro_msg,edu_msg=edu_msg,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],vol_msg=vol_msg,cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,count_pass=co_pa,count_tense=co_ta,act_msg=act_msg,para=sections['paragraph'],depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
     #return render_template('display.html', results=sections)   
 
+@app.route('/about',methods= ["GET",'POST'])
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact',methods= ["GET",'POST'])
+def contact():
+    return render_template('contact.html')
 
 if __name__ == '__main__':
     app.run()
