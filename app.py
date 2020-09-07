@@ -257,9 +257,9 @@ def uploaded_file(filename):
     sections['edu_year']=""
     sections['exp_year']=""
     sections['paragraph']=0
-    print(sections.keys())
+    #print(sections.keys())
     for key in sections.keys():
-        print(repr(key))
+        #print(repr(key))
         #for sec in titles1:
             #if sec == key.lower():
                 #print(sec,type(sec),"Hi")
@@ -370,11 +370,13 @@ def uploaded_file(filename):
     #print('Heyo',sections['linkedin'])
     ac=0
     rd=0
-    if actionwords(text_main) > 5:
+    action_list=[]
+    if actionwords(text_main)[0] > 5:
         act_msg =1
+        action_list=actionwords(text_main)[1]
         ac=10
         sections['action_word']="Your resume contains Action Verbs! Strong, unique action verbs show hiring managers that you have held different roles and skill sets. They also help your accomplishments stand out and make them more impactful."
-    elif actionwords(text_main)<=5:
+    elif actionwords(text_main)[0]<=5:
         act_msg =0
         sections['action_word']="Your resume doesnt contain much Action Verbs! Strong, unique action verbs show hiring managers that you have held different roles and skill sets. They also help your accomplishments stand out and make them more impactful. "
         
@@ -397,11 +399,11 @@ def uploaded_file(filename):
     sections['match']=match
     # Checking of resume score for message
     if(score == 100):
-        rev="The score looks perfect but to get a more accurate comparison with the job you are looking for try analysing by adding Job Description"
+        rev="the score looks perfect but to get a more accurate comparison with the job you are looking for try analysing by adding Job Description"
     elif(score < 60):
-        rev="This suggests there is a lot of room for improvement. But don't worry! We have highlighted a number of quick fixes you can make to improve your resume's score and your success rate. Try adding more missing skills into your resume to increase your match rate to 80% or above."
+        rev="this score suggests there is a lot of room for improvement. But don't worry! We have highlighted a number of quick fixes you can make to improve your resume's score and your success rate. Try adding more missing skills into your resume to increase your match rate to 80% or above."
     else:
-        rev="Your score looks quite good however we have highlighted a number of quick fixes you can make to improve your resume's score. Try adding more missing skills into your resume to increase your match rate."
+        rev="your score looks good however we have highlighted a number of quick fixes you can make to improve your resume's score. Try adding more missing skills into your resume to increase your match rate."
     sections["Review"]=rev
     sections["Length"]=length
     sections["WordCount"]=word_count
@@ -421,26 +423,29 @@ def uploaded_file(filename):
         sections["Review"]="The Resume is correctly Parsed and Optimal. There may be some room for Improvement"
     if(sections['Score'] >=75 and sections['Score']<90):
         sections["Review"]="The Resume may be Correctly Parsed and Optimal. It is advised to pass DOCX Format in ATS Checker. There is certainly Some Room For Improvement"        
-    
+    count_passive1=[]
     count_passive=0
     co_pa=0
     for i in line1:
         if(is_passive(i)):
             count_passive += 1
+            count_passive1.append(i)
     
             
-    if(count_passive > 5):
+    if(count_passive > 0):
         co_pa= 1
         
     else:
         co_pa=0
         ac += 5
     #print(impact)
+    count_tense1=[]
     co_ta=0
     count_tenses=0
     for i in line1:
         if(tenses_res(i)):
             count_tenses += 1
+            count_tense1.append(i)
             
     if(count_tenses >= 5):
         co_ta= 1
@@ -451,15 +456,34 @@ def uploaded_file(filename):
         
     
     if sections['paragraph'] <= 2:
+        
         ac += 5
         
     
-    print(sections.keys())
+    #print(sections.keys())
+    cont=[]
+    contact_all=contact_details(text_main)
+    for elem in contact_all:
+        if elem:
+            if len(contact_all[0]) == 0:
+                cont.append('email')
+            if len(contact_all[1]) == 0:
+                cont.append('phone')
+            if len(contact_all[2]) == 0:
+                cont.append('linkedin')
+            if len(contact_all[0]) !=0 and len(contact_all[1])!=0 and len(contact_all[2])!=0:
+               cont.append('all')
+            break
+
+        if elem not in contact_all:
+           cont.append("none")
     
-        
+    namee=extract_name(text_main)
+    #namee=' '.join(w.capitalize() for w in namee.split())
+    print(namee,cont,count_tense1,count_passive1,sections['edu_year'],sections['exp_year'])    
     #end of check
     #print(pro_msg,edu_msg,sections['redundancy'],vol_msg,cert_msg,link_msg,ach_msg,act_msg)
-    return render_template('services.html', results=sections,pro_msg=pro_msg,edu_msg=edu_msg,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],vol_msg=vol_msg,cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,count_pass=co_pa,count_tense=co_ta,act_msg=act_msg,para=sections['paragraph'],depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
+    return render_template('services.html', results=sections,name=namee,pro_msg=pro_msg,edu_msg=edu_msg,matched_comment= rev,jd_msg=jd_msg,score= sections['Score'],email=email,education=edu,rud_mdg=sections['redundancy'],vol_msg=vol_msg,cert_msg=cert_msg,link_msg=link_msg,ach_msg = ach_msg,count_pass=co_pa,count_tense=co_ta,act_msg=act_msg,para=sections['paragraph'],action_list=list(set(action_list)),count_tense1=count_tense1,count_passive1=count_passive1,contacts=cont,edu_year=sections['edu_year'],exp_year=sections['exp_year'], depth=int(((ac+rd)/30*100)),pres=int(pres/25*100),impact=int(impact/45 *100))
     #return render_template('display.html', results=sections)   
 
 
@@ -527,6 +551,7 @@ def Find(string):
 
 def actionwords(string):
     #count=0
+    No_of_actionVerbs=[]
     test_list = ['accelerated', 'achieved', 'attained', 'completed', 'conceived', 'convinced',
              'discovered', 'doubled', 'effected', 'eliminated', 'expanded', 'expedited', 
              'founded', 'improved', 'increased', 'initiated', 'innovated', 'introduced', 
@@ -583,8 +608,9 @@ def actionwords(string):
              'recorded', 'retrieved', 'screened', 'specified', 'systematized']
     test_string=string.lower()
     res = [ele for ele in test_list if(ele in test_string)]
-    No_of_actionVerbs = len(res)
-    print("Total number of acyion verbs used: ",No_of_actionVerbs)
+    No_of_actionVerbs.append(len(res))
+    No_of_actionVerbs.append(res)
+    #print("Total number of action verbs used: ",No_of_actionVerbs)
     return(No_of_actionVerbs)
 
 def redundancy(string):
@@ -670,6 +696,34 @@ def paragraph_check(str):
     else:
         return 1
     
+def contact_details(string):
+    contact = []
+    phone=re.findall('(?:\+[1-9]\d{0,2}[- ]?)?[1-9]\d{9}', string)
+    email=re.findall(r"([a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9_-]+)",string)
+    linkedin_username = re.findall(r"(?:https?:)?\/\/(?:[\w]+\.)?linkedin\.com\/in\/(?P<permalink>[\w\-\_À-ÿ%]+)\/?",string)
+    if len(linkedin_username) != 0:
+        linkedin_username[0] = 'https://www.linkedin.com/in/'+ linkedin_username[0]
+    contact.append(email)
+    contact.append(phone)
+    contact.append(linkedin_username)
+    return contact
+
+
+
+def extract_name(resume_text):
+    nlp_text = nlp(resume_text)
+    matcher = Matcher(nlp.vocab)
+    
+    # First name and Last name are always Proper Nouns
+    pattern = [[{'POS': 'PROPN'}, {'POS': 'PROPN'}]]
+    
+    matcher.add('NAME', None, *pattern)
+    
+    matches = matcher(nlp_text)
+    
+    for match_id, start, end in matches:
+        span = nlp_text[start:end]
+        return span.text    
 
     
     

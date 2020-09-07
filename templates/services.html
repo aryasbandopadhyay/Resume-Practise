@@ -265,7 +265,7 @@
                   </div>
                   <div class="services-cap">
                     <h3><a href="/demo">Match Score</a></h3>
-                    <p>{{matched_comment}}</p>
+                    <p>Dear User, {{matched_comment}}</p>
                     <br />
                   </div>
                 </div>
@@ -307,13 +307,21 @@
                   <div class="services-cap">
                     <h3><a>Depth</a></h3>
                     <p>
+                    
                       {% if act_msg == 1%}
 
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         ACTION VERBS -</b
                       >Great to see some action verbs in your resume. They will
                       help a prospective employer see a vivid picture of your
-                      experience and achievement. <br /><b>
+                      experience and achievement. <br />
+                      Examples of action words used in your resume are:- 
+                      {% for value in action_list%}
+                      <b>{{value}}, </b>
+                      {% endfor %}
+                      <br />
+                      <b>
+                      
                         If you want to make your resume stand out, action verbs
                         are key. Strong, effective action words will paint a
                         vivid picture of your experience and achievements in a
@@ -336,21 +344,77 @@
 
                       {% endif %}
                       <br /><br />
-                      {% if count_pass == 0 and count_tense == 0%}
+                      {% if count_pass == 0 and count_tense==0%}
 
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         GRAMMAR -</b
-                      >You have used correct grammar in your resume. The tenses are correct along with the active pasive sentences. 
+                      >You have used correct grammar in your resume. <br />
+                      
+                      <br />
+                      <b>
+                      
+                        When developing your resume, always pay attention to grammar and spelling throughout the document. A resume with proper grammar and no spelling errors is essential in a job search. Carelessness with spelling, grammar, and choice of words may not create a favorable impression in the mind of the hiring manager. Choose past tense when talking about the roles that you held but no longer do. Use the present tense to explain what you do currently.
+                      </b>
+
                       {% else %}
+
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
-                      /><b> GRAMMER -</b>
-                      You might want to check the grammar in your resume, use correct tenses and active-passive sentences.
-                       {% endif %}
+                      /><b> GRAMMAR -</b> You might want to check the grammar in your resume, use correct tenses and active-passive sentences.<br />
+                        
+
+                      {% endif %}
                       <br />
-                      <b>When developing your resume, always pay attention to grammar and spelling throughout the document. A resume with proper grammar and no spelling errors is essential in a job search. Carelessness with spelling, grammar, and choice of words may not create a favorable impression in the mind of the hiring manager. Choose past tense when talking about the roles that you held but no longer do. Use the present tense to explain what you do currently.<b/>
-                      <br /><br />
+                      {% if count_pass == 0%}
+
+                      <img src="/static/tick.png" style="width: 10px" /><b>
+                        <i>ACTIVE PASSIVE SENTENCES -</i></b
+                      >Great to see that your bullet points are in Active Voice
+                      in your resume. {% else %}
+                      <img
+                        src="/static/criss-cross.png"
+                        style="width: 10px"
+                      /><b> <i>ACTIVE PASSIVE SENTENCES -</i></b>
+                      Your bullet points are in Passive Voice and you need to
+                      change them to active. {% endif %}
+                      <br />
+                      {% if count_passive1|length !=0 %}
+                      {% for value in count_passive1 %}
+                      <img
+                        src="/static/criss-cross.png"
+                        style="width: 5px"
+                      />
+                      <b>{{value}} </b><br />
+                      {% endfor %}
+                      {% endif %}
+                      
+                      {% if count_tense == 0 %}
+                      <img src="/static/tick.png" style="width: 10px" /><b><i>
+                        TENSE -</i></b
+                      >Glad to see you have used correct tenses in your
+                      sentences. {% else %}
+                      <br />
+                      <img
+                        src="/static/criss-cross.png"
+                        style="width: 10px"
+                      /><b><i> TENSE -</i></b>Ensure that you are using the right
+                      tenses when describing your accomplishment {% endif %}
+                      <br />
+                      {% if count_tense1|length !=0 %}
+                      {% for value in count_tense1 %}
+                      <img
+                        src="/static/criss-cross.png"
+                        style="width: 5px"
+                      />
+                      <b>{{value}} </b><br />
+                      {% endfor %}
+                      {% endif %}
+                      <br />
+                      <b> When developing your resume, always pay attention to grammar and spelling throughout the document. A resume with proper grammar and no spelling errors is essential in a job search. Carelessness with spelling, grammar, and choice of words may not create a favorable impression in the mind of the hiring manager. Choose past tense when talking about the roles that you held but no longer do. Use the present tense to explain what you do currently.
+                      </b><br /><br />
+                      
+                      
                       {% if rud_mdg == "1" %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         REDUNDANCY -</b
@@ -360,9 +424,7 @@
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
-                      /><b>
-                        REDUNDANCY -</b
-                      >We can see some words being used
+                      /><b> REDUNDANCY -</b>We can see some words being used
                       repetitvely in your resume, please consider using synonyms
                       to add more and diverse meaing to your resume. {% endif %}
                       <br /><b
@@ -375,13 +437,14 @@
                         using powerful verbs and adjectives. Creating this
                         strong impression can help you to avoid redundancy by
                         carefully choosing the words and phrases that you
-                        use.</b>
-                      <br /><br />
+                        use.</b
+                      >
+                      <br />
                       
                       {% if para <= 2 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         BULLET POINTS -</b
-                     >Glad to see you have used less number of paragraphs and
+                      >Glad to see you have used less number of paragraphs and
                       more bullet points in your Resume. This helps recruiters
                       skim through your resume qucikly and it creates a positive
                       impression. {% else %}
@@ -389,8 +452,7 @@
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
-                      /><b> BULLET POINTS -</b
-                      >Ensure that you are using Bullet
+                      /><b> BULLET POINTS -</b>Ensure that you are using Bullet
                       Points when describing your accomplishment because
                       recruiters prefer skiimming through your resume quickly
                       and paragraphs make it Difficult for them. {% endif %}
@@ -582,17 +644,17 @@
                   <div class="services-cap">
                     <h3><a>Presentation </a></h3>
                     <p>
-                      {% if edu_msg == 1 %}
+                      {% if edu_msg == 1 and edu_year|length != 0%}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         EDUCATION -</b
                       >Good to see that you are using the globally accepted
                       standards of date formatting. It will be easier for a
                       recruiter to review your resume. <br />
-                      Clearly mentioning dates in the MM/YYYY format helps the
+                      Clearly mentioning dates in the YYYY format helps the
                       recruiter in creating a clear picture of your career span
                       and also helps the ATS systems in calculating your vinatge
-                      in an effective manner.  {% else %}
-
+                      in an effective manner. 
+                      {% elif edu_msg == 1%}
                       <img src="/static/exclaim.png" style="width: 20px" /><b>
                         EDUCATION -</b
                       >You might want to mention dates in MM YYYY format with
@@ -602,6 +664,16 @@
                         span and also helps the ATS systems in calculating your
                         vinatge in an effective manner.
                       </b>
+                      {% else %}
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        EDUCATION -</b
+                      >Your education Section is Either Missing from the resume or Poorly Formatted<br /><b
+                        >Clearly mentioning dates in the MM/YYYY format and proper section Title helps
+                        the recruiter in creating a clear picture of your career
+                        span and also helps the ATS systems in calculating your
+                        vinatge in an effective manner.
+                      </b>
+                      
                       {% endif %}
 
                       <br /><br />
@@ -728,22 +800,48 @@
                       optimal. {% endif %} {% endif %} {% endfor %}
 
                       <!--End Length-->
-                      {% if email != "" %}
+                      
                       <br />
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         CONTACT -</b
                       >
-                      Great - You've added contact details that builds your
-                      profile credibility. Recruiters appreciate the convenience
-                      and credibility associated with your resume. {%else %}
+                      Here is what we found about your contact details<br />
+                      {% if contacts|length ==0 %}
+                      <img src="/static/criss-cross.png" style="width: 10px" /><b>
+                        CONTACT -</b
+                      >
+                      No contact details have been added. 
+                      {% else %}
+                      {% for value in contacts %}
+                      {% if value == "all" %}
                       <img
-                        src="/static/criss-cross.png"
-                        style="width: 20px"
+                        src="/static/tick.png"
+                        style="width: 10px"
                       /><b> CONTACT -</b>
-                      You have not mentioned contact details like email or phone
-                      number. Try incorporating these details to increase your
-                      resume score. {% endif %}
+                      All contact details have been mentioned 
                       <br />
+                      {% elif value == "email" %}
+                      <img
+                        src="/static/exclaim.png"
+                        style="width: 10px"
+                      /><b> EMAIL -</b>
+                      Email is missing from your contact details
+                      <br />
+                      {% elif value == "linkedin" %}
+                      <img
+                        src="/static/exclaim.png"
+                        style="width: 10px"
+                      /><b> LINKEDIN -</b>
+                      LinkedIn is missing from your contact details
+                      <br />
+                      {% else %}
+                      <img
+                        src="/static/exclaim.png"
+                        style="width: 10px"
+                      /><b> PHONE -</b>
+                      Phone Number is missing from your contact details
+                      <br />
+                      {% endif %}{% endfor %}{% endif %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         FILLER WORDS -</b
                       >
