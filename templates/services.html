@@ -544,6 +544,18 @@
                         role. An achievement is unique to your experience and
                         tells the employer that you can deliver.</b
                       >
+                      {% elif faw==1 %}{% for value in imp_for %}{% if "achievement" == value %}
+                      <img
+                        src="/static/exclaim.png"
+                        style="width: 20px"
+                      /><b> ACHIEVEMENTS -</b>We did not find a Distinctive achievement section but we did find keywords related to it. So even if you have mentioned your achievement's, it's not properly formatted <br /><b
+                        >Achievements are things you did that had a lasting
+                        impact for your company or client. It is a result that
+                        you personally bring about while fulfilling a particular
+                        role. An achievement is unique to your experience and
+                        tells the employer that you can deliver.</b
+                      >
+                      {% endif %}{% endfor %}
                       {% else %}
 
                       <img
@@ -574,6 +586,20 @@
                         them your CV will be overlooked and you will not be
                         considered for the position. </b
                       >
+                      {% elif fce == 1 %}{% for value in imp_for %}{% if "certification" == value %}
+                      <img
+                        src="/static/exclaim.png"
+                        style="width: 20px"
+                      /><b> CERTIFICATION -</b>We did not find a Distinctive Certification section but we did find keywords related to it. So even if you have mentioned your certifications's, it's not properly formatted <br /><b
+                        >When applying for a job, it is crucial to have the
+                        certifications that the employer is looking for since,
+                        very often, the reason for rejections is the lack of
+                        certifications to match your desired career choice. The
+                        employer often lists these as non-negotiable and without
+                        them your CV will be overlooked and you will not be
+                        considered for the position.</b
+                      >
+                      {% endif %}{% endfor %}
                       {% else %}
 
                       <img
@@ -599,7 +625,7 @@
                         src="/static/criss-cross.png"
                         style="width: 20px"
                       /><b> LINKS -</b>You might want to share some links to
-                      your professional social media pages Like LinkenIn. {%
+                      your professional social media pages Like LinkedIn. {%
                       endif %}
                     </p>
 
@@ -644,7 +670,7 @@
                   <div class="services-cap">
                     <h3><a>Presentation </a></h3>
                     <p>
-                      {% if edu_msg == 1 and edu_year|length != 0%}
+                      {% if edu_msg == 1 and ed_correct_year == 1 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         EDUCATION -</b
                       >Good to see that you are using the globally accepted
@@ -664,10 +690,31 @@
                         span and also helps the ATS systems in calculating your
                         vinatge in an effective manner.
                       </b>
+                      {% elif edu_msg == 1 and ed_incorrect_year == 0 and ed_correct_year ==0 %}
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        EDUCATION -</b
+                      >You might want to mention dates in MM YYYY format with
+                      the education details in reverse chronological since we couldn't find any dates in your resume.<br /><b
+                        >Clearly mentioning dates in the MM/YYYY format helps
+                        the recruiter in creating a clear picture of your career
+                        span and also helps the ATS systems in calculating your
+                        vinatge in an effective manner.
+                      </b>
+                      {% elif fed == 1 %}{% for value in imp_for %}{% if "education" == value %}
+                      <img
+                        src="/static/exclaim.png"
+                        style="width: 20px"
+                      /><b> EDUCATION -</b>We did not find a Distinctive Education section but we did find keywords related to it. So even if you have mentioned your educational qualifications, it's not properly formatted <br /><b
+                        >Clearly mentioning dates in the MM/YYYY format helps
+                        the recruiter in creating a clear picture of your career
+                        span and also helps the ATS systems in calculating your
+                        vinatge in an effective manner.</b
+                      >
+                      {% endif %}{% endfor %}
                       {% else %}
                       <img src="/static/exclaim.png" style="width: 20px" /><b>
                         EDUCATION -</b
-                      >Your education Section is Either Missing from the resume or Poorly Formatted<br /><b
+                      >Your education Section is Either Missing from the resume<br /><b
                         >Clearly mentioning dates in the MM/YYYY format and proper section Title helps
                         the recruiter in creating a clear picture of your career
                         span and also helps the ATS systems in calculating your
@@ -686,9 +733,21 @@
                       the employers that you value giving back to the community
                       just as much as your potential employers
                       do. Volunteer experience not only makes you stand out, but
-                      also it also helps you gain transferrable skills. {% else
-                      %}
-
+                      also it also helps you gain transferrable skills. 
+                      {% elif fvo == 1 %}{% for value in imp_for %}{% if "volunteer" == value %}
+                      <img
+                        src="/static/exclaim.png"
+                        style="width: 20px"
+                      /><b> VOLUNTEER -</b>We did not find a Distinctive Volunteering section but we did find keywords related to it. So even if you have mentioned your volunteering activities, it's not properly formatted <br /><b
+                        >If you're looking to enter the corporate world,
+                      having volunteering work on your resume can instantly tell
+                      the employers that you value giving back to the community
+                      just as much as your potential employers
+                      do. Volunteer experience not only makes you stand out, but
+                      also it also helps you gain transferrable skills.</b
+                      >
+                      {% endif %}{% endfor %}
+                      {% else %}
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
@@ -718,6 +777,18 @@
                         employers to mentally map you into a position that
                         requires a similar skill set.</b
                       >
+                      {% elif fpe == 1 %}{% for value in imp_for %}{% if "project" == value %}
+                      <img
+                        src="/static/exclaim.png"
+                        style="width: 20px"
+                      /><b> PROJECTS -</b>We did not find a Distinctive Projects section but we did find keywords related to it. So even if you have mentioned your projects, it's not properly formatted <br /><b
+                        >Mentioning projects in your resume establishes you as a
+                        successful professional in your field. It demonstrates a
+                        proven track record of success. It also allows potential
+                        employers to mentally map you into a position that
+                        requires a similar skill set.</b
+                      >
+                      {% endif %}{% endfor %}
                       {% else %}
 
                       <img
