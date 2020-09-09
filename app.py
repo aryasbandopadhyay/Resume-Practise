@@ -89,7 +89,7 @@ def uploaded_file(filename):
     print(f_name)
     impact = 0
     pres =0
-    #text_main = ""
+    text_main = ""
     edu_msg =0 
     vol_msg=0
     pro_msg=0
@@ -97,7 +97,9 @@ def uploaded_file(filename):
     if(file_name[-3:]=="pdf"):
         print("File is in pdf")
         match = float(pdf(file_name))
+        print(text_main)
         #text_main=re.sub(r'[^\\x00-\x7f]',r'', text_main)
+        #text_main=re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', '', text_main)
         if (float(match) == 0):
             jd_msg = "If it shows zero, probably you have not specified the JD in it field. Try adding a JD to check how accurately your resume matches with the Job."
         elif (float(match) < 50):
@@ -107,7 +109,7 @@ def uploaded_file(filename):
     elif(file_name[-4:] == "docx" or file_name[-3:] == "doc" ):
         print("File is in docx")
         match = docx(file_name)
-        text_main=re.sub(r'[^\x00-\x7f]',r'', text_main)
+        #text_main=re.sub(r'[^\x00-\x7f]',r'', text_main)
         if (float(match) == 0.0):
             jd_msg = "If it shows zero, probably you have not specified the JD in it field. Try adding a JD to check how accurately your resume matches with the Job."
         elif (float(match) < 50):
@@ -197,7 +199,7 @@ def uploaded_file(filename):
     line1=line2
     temp = '\t'.join(titles1)
     for x in line1:
-        #print(x.lower() in titles1,repr(x.lower()))
+        print(x.lower() in titles1, x.lower())
         global keyword
         if(x==line1[-1]):
         
@@ -227,7 +229,7 @@ def uploaded_file(filename):
                 keyword=x
                 section =[]
                 #print(sections)
-    print(sections.keys())
+    #print(sections.keys())
     sections['phone']=list(set(phone))
     sections['links']=mlink
     if (len(mlink) != 0):
@@ -272,7 +274,7 @@ def uploaded_file(filename):
     sections['edu_year']=""
     sections['exp_year']=""
     sections['paragraph']=0
-    print(sections)
+    #print(sections)
     for key in sections.keys():
         #print(repr(key))
         #for sec in titles1:
@@ -286,7 +288,7 @@ def uploaded_file(filename):
                 ed=1
                 edu_msg =1
                 ed_date_format_list=date_format(sections[key])
-                print(ed_date_format_list)
+                #print(ed_date_format_list)
                 sections['edu_year']=extract(sections[key])
                 sections['paragraph']+=paragraph_check(sections[key])
                 #print(key,temp_ed)
@@ -403,6 +405,7 @@ def uploaded_file(filename):
             for ik in vo1_list:
                 if ik in text_main.lower():
                     fvo=1
+    print(fed,fex,fsk,fsk,faw,fce,fpe,fvo)
     improper_format=[]
     if(fed==1 and ed==0):
         improper_format.append('education')
@@ -607,7 +610,8 @@ def docx(name):
 def pdf(name):
     global text_main,length
     c=repr(extract_text(name))
-    #print(c)
+    
+    print(c)
 
     # f = open('jd.txt', 'r')
     jd= session['data']  
@@ -825,8 +829,8 @@ def date_format(str1):
     c=""
     for i in str1:
         c+=i+" "
-    print(str1)
-    print(c)
+    #print(str1)
+    #print(c)
     keywords = ['jan', 'feb', 'mar','apr', 'may','jun', 'jul', 'aug', 'sep', 'oct','nov', 'dec']
     string = '20'
     punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
