@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="../static/assets/css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="../static/assets/css/chart.css" />
   </head>
 
   <body>
@@ -46,6 +47,14 @@
     </div>
     <!-- Preloader Start -->
     <header>
+      <style>
+        .slicknav_menu {
+          margin-top: 16px !important;
+        }
+        .header-area .slicknav_btn {
+          top: -75px !important;
+        }
+      </style>
       <!-- Header Start -->
       <div class="header-area header-transparent">
         <div class="main-header">
@@ -58,7 +67,7 @@
                     <a href="/home"
                       ><img
                         src="/static/assets/img/logo/dataly-resetlogo-05-05.png"
-                        style="width: 300px; height: 100px"
+                        style="width: 270px"
                         alt=""
                     /></a>
                   </div>
@@ -136,8 +145,8 @@
                 <div class="hero-cap text-center pt-50">
                   <h2>Resume Analysis</h2>
                   <p style="color: white; font-size: 21.5px">
-                    " We at Reset Your Career have access to various CVs and we
-                    are analysing through global standards. "
+                    " We at Reset Your Career have curated detailed analysis of
+                    your resume by evaluating them through global standards. "
                   </p>
                 </div>
               </div>
@@ -266,12 +275,33 @@
                   <div class="services-cap">
                     <h3><a href="/demo">Match Score</a></h3>
                     <p>Dear User, {{matched_comment}}</p>
+
+                    {% for key, values in results.items() %} {% if 'Score' in
+                    key%} {% if values < 15 %}
+
+                    <p>
+                      <b>
+                        Note: Please check if or not your resume is properly
+                        formatted or ATS friendly.
+                      </b>
+                    </p>
+
+                    {% endif %} {% endif %} {% endfor %}
+
                     <br />
                   </div>
                 </div>
                 <div class="services-shape"></div>
               </div>
             </div>
+            <!-- <div class="col-12">
+              <div class="services-wrapper mb-50">
+                <iframe
+                  style="height: 500px; border: none; width: 100%"
+                  src="/wordclouded"
+                ></iframe>
+              </div>
+            </div> -->
 
             <div class="col-12">
               <div class="services-wrapper mb-50">
@@ -307,7 +337,6 @@
                   <div class="services-cap">
                     <h3><a>Depth</a></h3>
                     <p>
-                    
                       {% if act_msg == 1%}
 
                       <img src="/static/tick.png" style="width: 20px" /><b>
@@ -315,13 +344,12 @@
                       >Great to see some action verbs in your resume. They will
                       help a prospective employer see a vivid picture of your
                       experience and achievement. <br />
-                      Examples of action words used in your resume are:- 
-                      {% for value in action_list%}
+                      Examples of action words used in your resume are:- {% for
+                      value in action_list%}
                       <b>{{value}}, </b>
                       {% endfor %}
                       <br />
                       <b>
-                      
                         If you want to make your resume stand out, action verbs
                         are key. Strong, effective action words will paint a
                         vivid picture of your experience and achievements in a
@@ -344,16 +372,22 @@
 
                       {% endif %}
                       <br /><br />
-                      {% if count_pass == 0 and count_tense==0%}
+                      {% if count_pass == 0 or count_tense==0%}
 
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         GRAMMAR -</b
                       >You have used correct grammar in your resume. <br />
-                      
-                      <br />
                       <b>
-                      
-                        When developing your resume, always pay attention to grammar and spelling throughout the document. A resume with proper grammar and no spelling errors is essential in a job search. Carelessness with spelling, grammar, and choice of words may not create a favorable impression in the mind of the hiring manager. Choose past tense when talking about the roles that you held but no longer do. Use the present tense to explain what you do currently.
+                        <br />
+                        When developing your resume, always pay attention to
+                        grammar and spelling throughout the document. A resume
+                        with proper grammar and no spelling errors is essential
+                        in a job search. Carelessness with spelling, grammar,
+                        and choice of words may not create a favorable
+                        impression in the mind of the hiring manager. Choose
+                        past tense when talking about the roles that you held
+                        but no longer do. Use the present tense to explain what
+                        you do currently.
                       </b>
 
                       {% else %}
@@ -361,65 +395,68 @@
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
-                      /><b> GRAMMAR -</b> You might want to check the grammar in your resume, use correct tenses and active-passive sentences.<br />
-                        
+                      /><b> GRAMMAR -</b> You might want to check the grammar in
+                      your resume, use correct tenses and active-passive
+                      sentences.<br />
 
                       {% endif %}
                       <br />
                       {% if count_pass == 0%}
+                      <br />
 
-                      <img src="/static/tick.png" style="width: 10px" /><b>
-                        <i>ACTIVE PASSIVE SENTENCES -</i></b
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        ACTIVE PASSIVE SENTENCES -</b
                       >Great to see that your bullet points are in Active Voice
                       in your resume. {% else %}
                       <img
                         src="/static/criss-cross.png"
-                        style="width: 10px"
-                      /><b> <i>ACTIVE PASSIVE SENTENCES -</i></b>
+                        style="width: 20px"
+                      /><b> ACTIVE PASSIVE SENTENCES -</b>
                       Your bullet points are in Passive Voice and you need to
                       change them to active. {% endif %}
                       <br />
-                      {% if count_passive1|length !=0 %}
-                      {% for value in count_passive1 %}
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 5px"
-                      />
+                      {% if count_passive1|length !=0 %} {% for value in
+                      count_passive1 %}
+                      <img src="/static/criss-cross.png" style="width: 20px" />
                       <b>{{value}} </b><br />
-                      {% endfor %}
-                      {% endif %}
-                      
-                      {% if count_tense == 0 %}
-                      <img src="/static/tick.png" style="width: 10px" /><b><i>
-                        TENSE -</i></b
+                      {% endfor %} {% endif %} {% if count_tense == 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b
+                        >TENSE -</b
                       >Glad to see you have used correct tenses in your
                       sentences. {% else %}
                       <br />
                       <img
                         src="/static/criss-cross.png"
-                        style="width: 10px"
-                      /><b><i> TENSE -</i></b>Ensure that you are using the right
-                      tenses when describing your accomplishment {% endif %}
+                        style="width: 20px"
+                      /><b> TENSE -</b>Ensure that you are using the right
+                      tenses when describing your accomplishment. {% endif %}
                       <br />
-                      {% if count_tense1|length !=0 %}
-                      {% for value in count_tense1 %}
-                      <img
-                        src="/static/criss-cross.png"
-                        style="width: 5px"
-                      />
-                      <b>{{value}} </b><br />
-                      {% endfor %}
-                      {% endif %}
-                      <br />
-                      <b> When developing your resume, always pay attention to grammar and spelling throughout the document. A resume with proper grammar and no spelling errors is essential in a job search. Carelessness with spelling, grammar, and choice of words may not create a favorable impression in the mind of the hiring manager. Choose past tense when talking about the roles that you held but no longer do. Use the present tense to explain what you do currently.
-                      </b><br /><br />
-                      
-                      
+                      {% if count_tense1|length !=0 %} {% for value in
+                      count_tense1 %}
+
+                      <img src="/static/criss-cross.png" style="width: 20px" />
+                      {{value}} <br />
+                      {% endfor %} {% endif %}
+
+                      <b>
+                        <br />
+                        When developing your resume, always pay attention to
+                        grammar and spelling throughout the document. A resume
+                        with proper grammar and no spelling errors is essential
+                        in a job search. Carelessness with spelling, grammar,
+                        and choice of words may not create a favorable
+                        impression in the mind of the hiring manager. Choose
+                        past tense when talking about the roles that you held
+                        but no longer do. Use the present tense to explain what
+                        you do currently. </b
+                      ><br /><br />
+
                       {% if rud_mdg == "1" %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         REDUNDANCY -</b
                       >Great to see that you have used a variety of different
-                      words to outline your career in your resume {% else %}
+                      words to outline your career in your resume. {% else %}
+                      <br />
 
                       <img
                         src="/static/criss-cross.png"
@@ -440,39 +477,43 @@
                         use.</b
                       >
                       <br />
-                      
-                      {% if para <= 2 %}
+
+                      {% if para <= 2 and para!= 0%}
+                      <br />
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         BULLET POINTS -</b
                       >Glad to see you have used less number of paragraphs and
                       more bullet points in your Resume. This helps recruiters
                       skim through your resume qucikly and it creates a positive
                       impression. {% else %}
+                      <br />
 
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
                       /><b> BULLET POINTS -</b>Ensure that you are using Bullet
                       Points when describing your accomplishment because
-                      recruiters prefer skiimming through your resume quickly
-                      and paragraphs make it Difficult for them. {% endif %}
+                      recruiters prefer skimming through your resume quickly and
+                      paragraphs make it Difficult for them. {% endif %}
                       <br />
-                      <b
-                        >Resume should predominantly contain short bullet points
-                        rather than paragraphs. If a recruiter was to pick up
-                        your resume right now, he should be able to skim through
-                        it in 30 seconds and your resume needs to be optimized
-                        for it. Short, succinct bullet points are key to your
-                        resume's readability. Blobs of text, that is bullets or
-                        paragraphs that are three lines or longer, are likely to
-                        not be read. It is recommended that you should list
-                        between 10 – 20 bullet points in your resume. Less than
-                        10 might mean that you do not have enough relevant
-                        experience and more than 20 means that you have included
-                        non – relevant accomplishments in your resume which may
-                        be overshadowing your actual achievements. Aim for 4 – 6
-                        bullet points per experience.</b
+                      <b>
+                        <br />Resume should predominantly contain short bullet
+                        points rather than paragraphs. If a recruiter was to
+                        pick up your resume right now, he should be able to skim
+                        through it in 30 seconds and your resume needs to be
+                        optimized for it. Short, succinct bullet points are key
+                        to your resume's readability. Blobs of text, that is
+                        bullets or paragraphs that are three lines or longer,
+                        are likely to not be read. It is recommended that you
+                        should list between 10 – 20 bullet points in your
+                        resume. Less than 10 might mean that you do not have
+                        enough relevant experience and more than 20 means that
+                        you have included non – relevant accomplishments in your
+                        resume which may be overshadowing your actual
+                        achievements. Aim for 4 – 6 bullet points per
+                        experience.</b
                       >
+                      <br />
                     </p>
                     <br />
                   </div>
@@ -480,6 +521,19 @@
                 <div class="services-shape"></div>
               </div>
             </div>
+            <!-- <div class="col-12">
+              <div class="services-wrapper mb-50">
+                <div
+                  class="single-services"
+                  style="padding-top: 50px; padding-bottom: 50px; height: 500px"
+                >
+                  <div class="services-cap" style="display: flex">
+                    <iframe src="/wrdcloud.html" title="Word Cloud"></iframe>
+                  </div>
+                </div>
+                <div class="services-shape"></div>
+              </div>
+            </div> -->
 
             <div class="col-12">
               <div class="services-wrapper mb-50">
@@ -528,9 +582,8 @@
                         style="width: 20px"
                       /><b> SKILLS -</b> Unfortunately, we found
                       <b>{{values}}</b> of measurable skills in your resume. Try
-                      adding more skills related to job you are applying for to
-                      increase the impact and results that you had on the job.
-                      {% endif %} {% endif %} {% endfor %}
+                      adding more skills related to your education to increase
+                      the impact. {% endif %} {% endif %} {% endfor %}
                       <br />
 
                       <br />
@@ -544,19 +597,22 @@
                         role. An achievement is unique to your experience and
                         tells the employer that you can deliver.</b
                       >
-                      {% elif faw==1 %}{% for value in imp_for %}{% if "achievement" == value %}
-                      <img
-                        src="/static/exclaim.png"
-                        style="width: 20px"
-                      /><b> ACHIEVEMENTS -</b>We did not find a Distinctive achievement section but we did find keywords related to it. So even if you have mentioned your achievement's, it's not properly formatted <br /><b
+                      {% elif faw==1 %}{% for value in imp_for %}{% if
+                      "achievement" == value %}
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        ACHIEVEMENTS -</b
+                      >We did not find a
+                      <b>distinctive achievement section</b> but we did find
+                      keywords related to it. So even if you have mentioned your
+                      achievement's, it's not properly formatted, please add the
+                      section distinctively. <br /><b
                         >Achievements are things you did that had a lasting
                         impact for your company or client. It is a result that
                         you personally bring about while fulfilling a particular
                         role. An achievement is unique to your experience and
                         tells the employer that you can deliver.</b
                       >
-                      {% endif %}{% endfor %}
-                      {% else %}
+                      {% endif %}{% endfor %} {% else %}
 
                       <img
                         src="/static/criss-cross.png"
@@ -586,11 +642,15 @@
                         them your CV will be overlooked and you will not be
                         considered for the position. </b
                       >
-                      {% elif fce == 1 %}{% for value in imp_for %}{% if "certification" == value %}
-                      <img
-                        src="/static/exclaim.png"
-                        style="width: 20px"
-                      /><b> CERTIFICATION -</b>We did not find a Distinctive Certification section but we did find keywords related to it. So even if you have mentioned your certifications's, it's not properly formatted <br /><b
+                      {% elif fce == 1 %}{% for value in imp_for %}{% if
+                      "certification" == value %}
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        CERTIFICATION -</b
+                      >We did not find a
+                      <b>distinctive Certification section</b> but we did find
+                      keywords related to it. So even if you have mentioned your
+                      certifications's, it's not properly formatted, please add
+                      the section distinctively. <br /><b
                         >When applying for a job, it is crucial to have the
                         certifications that the employer is looking for since,
                         very often, the reason for rejections is the lack of
@@ -599,8 +659,7 @@
                         them your CV will be overlooked and you will not be
                         considered for the position.</b
                       >
-                      {% endif %}{% endfor %}
-                      {% else %}
+                      {% endif %}{% endfor %} {% else %}
 
                       <img
                         src="/static/criss-cross.png"
@@ -619,14 +678,14 @@
                       {% endif %}
 
                       <br /><br />
-
+                      <!-- 
                       {% if link_msg == 0 %}
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
                       /><b> LINKS -</b>You might want to share some links to
                       your professional social media pages Like LinkedIn. {%
-                      endif %}
+                      endif %} -->
                     </p>
 
                     <br />
@@ -679,48 +738,56 @@
                       Clearly mentioning dates in the YYYY format helps the
                       recruiter in creating a clear picture of your career span
                       and also helps the ATS systems in calculating your vinatge
-                      in an effective manner. 
-                      {% elif edu_msg == 1%}
+                      in an effective manner.  {% elif edu_msg == 1%}
                       <img src="/static/exclaim.png" style="width: 20px" /><b>
                         EDUCATION -</b
                       >You might want to mention dates in MM YYYY format with
-                      the education details in reverse chronological.<br /><b
+                      the education details in reverse chronological order.<br /><b
                         >Clearly mentioning dates in the MM/YYYY format helps
                         the recruiter in creating a clear picture of your career
                         span and also helps the ATS systems in calculating your
                         vinatge in an effective manner.
                       </b>
-                      {% elif edu_msg == 1 and ed_incorrect_year == 0 and ed_correct_year ==0 %}
+                      {% elif edu_msg == 1 and ed_incorrect_year == 0 and
+                      ed_correct_year ==0 %}
                       <img src="/static/exclaim.png" style="width: 20px" /><b>
                         EDUCATION -</b
                       >You might want to mention dates in MM YYYY format with
-                      the education details in reverse chronological since we couldn't find any dates in your resume.<br /><b
+                      the education details in reverse chronology since we
+                      couldn't find any dates in your resume.<br /><b
                         >Clearly mentioning dates in the MM/YYYY format helps
                         the recruiter in creating a clear picture of your career
                         span and also helps the ATS systems in calculating your
                         vinatge in an effective manner.
                       </b>
-                      {% elif fed == 1 %}{% for value in imp_for %}{% if "education" == value %}
-                      <img
-                        src="/static/exclaim.png"
-                        style="width: 20px"
-                      /><b> EDUCATION -</b>We did not find a Distinctive Education section but we did find keywords related to it. So even if you have mentioned your educational qualifications, it's not properly formatted <br /><b
+                      {% elif fed == 1 %}{% for value in imp_for %}{% if
+                      "education" == value %}
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        EDUCATION -</b
+                      >We did not find a
+                      <b>distinctive education section</b> but we did find
+                      keywords related to it. So even if you have mentioned your
+                      educational qualifications, it's not properly formatted,
+                      please add the section distinctively. <br /><b
                         >Clearly mentioning dates in the MM/YYYY format helps
                         the recruiter in creating a clear picture of your career
                         span and also helps the ATS systems in calculating your
                         vinatge in an effective manner.</b
                       >
-                      {% endif %}{% endfor %}
-                      {% else %}
-                      <img src="/static/exclaim.png" style="width: 20px" /><b>
-                        EDUCATION -</b
-                      >Your education Section is Either Missing from the resume<br /><b
-                        >Clearly mentioning dates in the MM/YYYY format and proper section Title helps
-                        the recruiter in creating a clear picture of your career
-                        span and also helps the ATS systems in calculating your
-                        vinatge in an effective manner.
+                      {% endif %}{% endfor %} {% else %}
+                      <img
+                        src="/static/criss-cross.png"
+                        style="width: 20px"
+                      /><b> EDUCATION -</b>Your education Section is Either
+                      Missing from the resume or improperly formatted, please
+                      add the section distinctively.<br /><b
+                        >Clearly mentioning dates in the MM/YYYY format and
+                        proper section Title helps the recruiter in creating a
+                        clear picture of your career span and also helps the ATS
+                        systems in calculating your vinatge in an effective
+                        manner.
                       </b>
-                      
+
                       {% endif %}
 
                       <br /><br />
@@ -733,21 +800,23 @@
                       the employers that you value giving back to the community
                       just as much as your potential employers
                       do. Volunteer experience not only makes you stand out, but
-                      also it also helps you gain transferrable skills. 
-                      {% elif fvo == 1 %}{% for value in imp_for %}{% if "volunteer" == value %}
-                      <img
-                        src="/static/exclaim.png"
-                        style="width: 20px"
-                      /><b> VOLUNTEER -</b>We did not find a Distinctive Volunteering section but we did find keywords related to it. So even if you have mentioned your volunteering activities, it's not properly formatted <br /><b
+                      also it also helps you gain transferrable skills. {% elif
+                      fvo == 1 %}{% for value in imp_for %}{% if "volunteer" ==
+                      value %}
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        VOLUNTEER -</b
+                      >We did not find a Distinctive Volunteering section but we
+                      did find keywords related to it. So even if you have
+                      mentioned your volunteering activities, it's not properly
+                      formatted, please add the section distinctively. <br /><b
                         >If you're looking to enter the corporate world,
-                      having volunteering work on your resume can instantly tell
-                      the employers that you value giving back to the community
-                      just as much as your potential employers
-                      do. Volunteer experience not only makes you stand out, but
-                      also it also helps you gain transferrable skills.</b
+                        having volunteering work on your resume can instantly
+                        tell the employers that you value giving back to the
+                        community just as much as your potential employers
+                        do. Volunteer experience not only makes you stand out,
+                        but also it also helps you gain transferrable skills.</b
                       >
-                      {% endif %}{% endfor %}
-                      {% else %}
+                      {% endif %}{% endfor %} {% else %}
                       <img
                         src="/static/criss-cross.png"
                         style="width: 20px"
@@ -777,19 +846,21 @@
                         employers to mentally map you into a position that
                         requires a similar skill set.</b
                       >
-                      {% elif fpe == 1 %}{% for value in imp_for %}{% if "project" == value %}
-                      <img
-                        src="/static/exclaim.png"
-                        style="width: 20px"
-                      /><b> PROJECTS -</b>We did not find a Distinctive Projects section but we did find keywords related to it. So even if you have mentioned your projects, it's not properly formatted <br /><b
+                      {% elif fpe == 1 %}{% for value in imp_for %}{% if
+                      "project" == value %}
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        PROJECTS -</b
+                      >We did not find a <b>distinctive projects section</b> but
+                      we did find keywords related to it. So even if you have
+                      mentioned your projects, it's not properly formatted,
+                      please add the section distinctively. <br /><b
                         >Mentioning projects in your resume establishes you as a
                         successful professional in your field. It demonstrates a
                         proven track record of success. It also allows potential
                         employers to mentally map you into a position that
                         requires a similar skill set.</b
                       >
-                      {% endif %}{% endfor %}
-                      {% else %}
+                      {% endif %}{% endfor %} {% else %}
 
                       <img
                         src="/static/criss-cross.png"
@@ -824,7 +895,7 @@
                     <h3>
                       <a>Tips for Improvement</a>
                     </h3>
-                    <br />
+
                     <p>
                       <!-- {% for key, values in results.items() %} {% if 'Message'
                       in key %} {% for value in values %}
@@ -833,21 +904,18 @@
 
                       {{value}} <br />{% endfor %} {% endif %} {% endfor %} -->
                       <!--ATS FINDINGS-->
-                      {% for key, values in results.items() %} {% if 'WordCount'
-                      in key %} {% if values < 1000 %}
+                      {% for key, values in results.items() %} {% if 'wordcount'
+                      in key.lower() %} {% if values <= 600 and values > 1 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         WORD COUNT -</b
                       >
                       The word count <b>{{values}}</b> of your resume is
                       optimal. {% else %}
+                      <br />
                       <img src="/static/exclaim.png" style="width: 20px" /><b>
                         WORD COUNT -</b
                       >
-                      There are <b>{{values}}</b> words in your resume. If you
-                      are not applying to executive-level, government, or
-                      Australia-based jobs, consider reducing your resume length
-                      to under 1000 words to increase focus and for ease of
-                      reading by recruiters.
+                      There are <b>{{values}}</b> words in your resume.
 
                       <!--END Section-->
 
@@ -855,13 +923,18 @@
                       <!--Length-->
                       <br />
                       {% for key, values in results.items() %} {% if 'Length' in
-                      key %} {% if values > 2 %}
+                      key %} {% if values > 2%}
 
                       <img src="/static/exclaim.png" style="width: 20px" /><b>
                         RESUME LENGTH -</b
                       >
                       The Length of the Resume of <b>{{values}} pages</b> looks
                       too long unless you have an experience of 10+ years. {%
+                      elif values ==1 and wc <=1 %}
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        RESUME LENGTH -</b
+                      >
+                      The Resume looks blank. Please Upload correct document. {%
                       else %}
 
                       <img src="/static/tick.png" style="width: 20px" /><b>
@@ -871,67 +944,70 @@
                       optimal. {% endif %} {% endif %} {% endfor %}
 
                       <!--End Length-->
-                      
+
                       <br />
-                      <img src="/static/tick.png" style="width: 20px" /><b>
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
                         CONTACT -</b
                       >
-                      Here is what we found about your contact details<br />
-                      {% if contacts|length ==0 %}
-                      <img src="/static/criss-cross.png" style="width: 10px" /><b>
-                        CONTACT -</b
-                      >
-                      No contact details have been added. 
-                      {% else %}
-                      {% for value in contacts %}
-                      {% if value == "all" %}
+                      Here is what we found about your contact details <br />{% if
+                      contacts|length ==0 %}
                       <img
-                        src="/static/tick.png"
-                        style="width: 10px"
+                        src="/static/criss-cross.png"
+                        style="width: 20px"
                       /><b> CONTACT -</b>
-                      All contact details have been mentioned 
+                      No contact details have been added. <br />{% else %} {% for
+                      value in contacts %} {% if value == "all" %}
+                      <img src="/static/tick.png" style="width: 50px" /><b>
+                        CONTACT -</b
+                      >
+                      All contact details have been mentioned
                       <br />
                       {% elif value == "email" %}
-                      <img
-                        src="/static/exclaim.png"
-                        style="width: 10px"
-                      /><b> EMAIL -</b>
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        EMAIL -</b
+                      >
                       Email is missing from your contact details
                       <br />
                       {% elif value == "linkedin" %}
-                      <img
-                        src="/static/exclaim.png"
-                        style="width: 10px"
-                      /><b> LINKEDIN -</b>
-                      LinkedIn is missing from your contact details
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        LINKEDIN -</b
+                      >
+                      LinkedIn is missing from your contact details {% else %}
                       <br />
-                      {% else %}
-                      <img
-                        src="/static/exclaim.png"
-                        style="width: 10px"
-                      /><b> PHONE -</b>
+                      <img src="/static/exclaim.png" style="width: 20px" /><b>
+                        PHONE -</b
+                      >
                       Phone Number is missing from your contact details
                       <br />
                       {% endif %}{% endfor %}{% endif %}
-                      <br/>
+                      <br />
+                      {% if fct_msg == 1%}
+
+                      <img
+                        src="/static/criss-cross.png"
+                        style="width: 20px"
+                      /><b> FILLER WORDS -</b>Your Resume comtains Filler Words
+                      <br />
+
+                      Examples are : {% for value in filler_list%}
+                      <b>{{value}}, </b>
+                      {% endfor %}
+                      <br />
+                      <b>
+                        We scanned your resume for common words and adverbs that
+                        recruiters often consider to be superfluous.
+                      </b>
+
+                      {% else %}
+
                       <img src="/static/tick.png" style="width: 20px" /><b>
                         FILLER WORDS -</b
-                      >
-
-                      We scanned your resume for common words and adverbs that
-                      recruiters often consider to be superfluous.
-
-                      <br />
-                      <b> NOTE -</b>
-
-                      It's important that potential employers and recruiters can
-                      easily reach you, so ensure you've included your regularly
-                      accessible email address and mobile number. While you
-                      shouldn't necessarily include your full physical address,
-                      recruiters find it easier to determine your eligibility if
-                      you include your current city on your resume. This is
-                      particularly useful if your previous job locations were in
-                      a different city to the job you're now applying for.
+                      >Your Resume contains no Filler words which is good.
+                      <br /><b>
+                        We scanned your resume for common words and adverbs that
+                        recruiters often consider to be superfluous.
+                      </b>
+                      {% endif %}
 
                       <!-- <br />
                       {% if education == 1 %}
@@ -1146,54 +1222,205 @@
                 >
                   <div class="services-cap">
                     <h3>
-                      <a href="/demo">Hard Skills </a>
+                      <a href="/demo">COMPETENCIES </a>
                     </h3>
                     <br />
                     <p>
+                      {% for key, values in match_dict.items() %} {% if
+                      'management' in key.lower() %} {% if values|length > 0 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
-                        Communication Skills -</b
-                      >
-                      Employers want someone that can clearly communicate with
-                      anyone the job requires them to - whether that is a key
-                      stakeholder, team member or client. Using clear action
-                      verbs for communication will help you in that manner.
-                      <br />
+                        MANAGEMENT-</b
+                      >We found these Keywords related to management - {% for v
+                      in values %}
 
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'operations' in key.lower()
+                      %} {% if values|length > 0 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
-                        Analytical Skills -</b
-                      >
-                      Analytical skills refer to your ability to break down
-                      complex problems, evaluate them effectively, and come up
-                      with appropriate solutions. Using clear action verbs for
-                      communication will help you in that manner.
+                        OPERATIONs-</b
+                      >We found these Keywords related to operations - {% for v
+                      in values %}
 
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
                       <br />
+                      {% endif %}{% endif %} {% if 'production' in key.lower()
+                      %} {% if values|length > 0 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
-                        Teamwork -</b
-                      >
+                        PRODUCTION -</b
+                      >We found these Keywords related to production - {% for v
+                      in values %}
 
-                      Employers want to know if you can work effectively with
-                      others to achieve common goals. Using clear action verbs
-                      for communication will help you in that manner.
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
                       <br />
+                      {% endif %}{% endif %} {% if 'logistics' in key.lower() %}
+                      {% if values|length > 0 %}
                       <img src="/static/tick.png" style="width: 20px" /><b>
-                        Leadership -</b
+                        LOGISTICS -</b
+                      >We found these Keywords related to logictics - {% for v
+                      in values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'research & development' in
+                      key.lower() %} {% if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        RESEARCH AND DEVELOPMENT -</b
+                      >We found these Keywords related to research and
+                      development - {% for v in values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'sales' in key.lower() %} {%
+                      if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        SALES -</b
+                      >We found these Keywords related to sales - {% for v in
+                      values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'marketing' in key.lower() %}
+                      {% if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        MARKETING -</b
+                      >We found these Keywords related to marketing - {% for v
+                      in values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'administration' in
+                      key.lower() %} {% if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        ADMINISTRATION -</b
+                      >We found these Keywords related to administration- {% for
+                      v in values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'legal' in key.lower() %} {%
+                      if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        LEGAL -</b
+                      >We found these Keywords related to legal - {% for v in
+                      values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'finance & accounting' in
+                      key.lower() %} {% if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        FINANCE AND ACCOUNTING -</b
+                      >We found these Keywords related to finance and accounting
+                      - {% for v in values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'human resources' in
+                      key.lower() %} {% if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        HUMAN RESOURCES -</b
+                      >We found these Keywords related to human resources - {%
+                      for v in values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'information technology' in
+                      key.lower() %} {% if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        INFORMATION TECHNOLOGY -</b
+                      >We found these Keywords related to information technology
+                      - {% for v in values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'creative' in key.lower() %}
+                      {% if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        CREATIVE -</b
+                      >We found these Keywords related to creative - {% for v in
+                      values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'design' in key.lower() %} {%
+                      if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        DESIGN -</b
+                      >We found these Keywords related to design - {% for v in
+                      values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% if 'publicrelation' in
+                      key.lower() %} {% if values|length > 0 %}
+                      <img src="/static/tick.png" style="width: 20px" /><b>
+                        PUBLIC RELATION -</b
+                      >We found these Keywords related to public relation - {%
+                      for v in values %}
+
+                      <b>{{v.upper()}}, </b>
+                      {% endfor %}
+                      <br />
+                      {% endif %}{% endif %} {% endfor %}
+                      <!-- message for no competency -->
+                      
+                      {% if empty_competency|length != 0 %}
+                      <b
+                        ><img
+                          src="/static/criss-cross.png"
+                          style="width: 20px"
+                        />
+                        {{empty_competency}}</b
                       >
-                      Employers want to know if you can own a project, manage a
-                      team and take responsibility. Using clear action verbs for
-                      communication will help you in that manner.
-                      <br />
-                      <img src="/static/tick.png" style="width: 20px" /><b>
-                        Drive and Initiative -
-                      </b>
-                      Employees who show strong initiative are characterized by
-                      their proactivity, selfstarting nature and persistence in
-                      solving difficult problems. Using clear action verbs for
-                      communication will help you in that manner.
+                      {% endif %}
                     </p>
                   </div>
                 </div>
                 <div class="services-shape"></div>
+              </div>
+              <div class="col-12">
+                <!-- <div class="services-wrapper mb-50">
+                  <div
+                    class="single-services"
+                    style="
+                      padding-top: 50px;
+                      padding-bottom: 50px;
+                      height: 500px;
+                    "
+                  >
+                    <div class="services-cap" style="display: flex">
+                      <iframe
+                        style="height: 500px; border: none; width: 100%"
+                        src="http://127.0.0.1:5000/barploted"
+                      ></iframe>
+                    </div>
+                  </div>
+                  <div class="services-shape"></div>
+                </div> -->
+              </div>
+
+              <div class="col-12">
+                <div class="services-wrapper mb-50">
+                  <iframe
+                    style="height: 500px; border: none; width: 100%"
+                    src="/barploted"
+                  ></iframe>
+                </div>
               </div>
             </div>
 
@@ -1522,7 +1749,7 @@
                       <a href="/home"
                         ><img
                           src="/static/assets/img/logo/dataly-resetlogo-05-05.png"
-                          style="max-width: 300px; height: 100px"
+                          style="max-width: 300px"
                           alt=""
                       /></a>
                     </div>
