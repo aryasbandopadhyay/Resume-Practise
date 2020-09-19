@@ -55,8 +55,8 @@ from io import BytesIO
 import plotly.io as pio
 
 #spell = SpellChecker()
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
+#nltk.download('stopwords')
+#nltk.download('averaged_perceptron_tagger')
 
 #nltk.download('all')
 
