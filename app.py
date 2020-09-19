@@ -22,7 +22,7 @@ from PyPDF2 import PdfFileReader
 from flask import Flask
 import re
 import json
-#import jinja2app
+import jinja2
 #from spellchecker import SpellChecker
 import nltk
 from nltk.corpus import stopwords 
