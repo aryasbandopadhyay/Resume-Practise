@@ -55,8 +55,8 @@ from io import BytesIO
 import plotly.io as pio
 
 #spell = SpellChecker()
-#nltk.download('stopwords')
-#nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
 
 #nltk.download('all')
 
@@ -94,7 +94,6 @@ def uploaded_file(filename):
         # return f_name
         global text_main,length,match,keyword
         file_name = f_name
-        empty_competency=""
         print(f_name)
         impact = 0
         pres =0
@@ -875,12 +874,7 @@ def uploaded_file(filename):
         #     pres-=10
         
         namee=extract_name(text_main)
-        c_match=0
-        for key in match_dict.keys():
-            if len(match_dict[key])==0:
-                c_match+=1
-        
-        if c_match ==15:
+        if(len(match_dict)==15):
             empty_competency = "You might want to add few competencies in your resume as it's an efficient way to provide comprehensive proof that you are qualified for a certain job. "
 
         # if (len(match_dict['management'] == 0) and (len(match_dict['operations'] == 0):
